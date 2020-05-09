@@ -1,0 +1,32 @@
+dependencies {
+    // spring
+    api("org.springframework:spring-context-support")
+    api("org.springframework:spring-jdbc")
+    api("org.springframework:spring-webmvc")
+    api("org.springframework.data:spring-data-jpa")
+    api("org.springframework.data:spring-data-commons")
+    api("org.springframework.boot:spring-boot-autoconfigure")
+    api("org.springframework.boot:spring-boot-configuration-processor")
+    // commons
+    api("org.apache.commons:commons-text:${commonsTextVersion}")
+    api("org.apache.commons:commons-lang3:${commonsLangVersion}")
+    api("org.apache.commons:commons-collections4:${commonsCollectionsVersion}")
+    api("org.apache.commons:commons-compress:${commonsCompressVersion}")
+    api("commons-codec:commons-codec:${commonsCodecVersion}")
+    api("commons-io:commons-io:${commonsIoVersion}")
+    // 3rd party
+    api("joda-time:joda-time")
+    api("mysql:mysql-connector-java")
+    api("com.squareup.okhttp3:okhttp")
+    api("com.fasterxml.jackson.core:jackson-databind")
+    api("org.hibernate:hibernate-core")
+    api("org.ow2.asm:asm:${asmVersion}")
+    api("com.squareup.okio:okio:${okIoVersion}")
+    api("com.google.guava:guava:${guavaVersion}")
+    api("org.redisson:redisson:${redissonVersion}")
+    api("com.nimbusds:nimbus-jose-jwt:${nimbusJoseJwtVersion}")
+    api("io.swagger:swagger-annotations:${swaggerAnnotationsVersion}")
+    // compileOnly
+    compileOnly("javax.servlet:javax.servlet-api")
+    compileOnly("javax.transaction:javax.transaction-api")
+}

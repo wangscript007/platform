@@ -1,0 +1,40 @@
+{
+    "hints": [],
+    "groups": [
+        {
+            "sourceType": "cn.elvea.platform.commons.autoconfigure.properties.CommonsProperties",
+            "name": "platform",
+            "type": "cn.elvea.platform.commons.autoconfigure.properties.CommonsProperties"
+        }
+    ],
+    "properties": [
+        {
+            "sourceType": "cn.elvea.platform.commons.autoconfigure.properties.CommonsProperties",
+            "defaultValue": false,
+            "name": "platform.debug",
+            "description": "是否启用调试模式",
+            "type": "java.lang.Boolean"
+        },
+        {
+            "sourceType": "cn.elvea.platform.commons.autoconfigure.properties.CommonsProperties",
+            "defaultValue": "manual",
+            "name": "platform.id-worker-type",
+            "description": "初始策略，包含auto(自动获取), manual(手工设置)",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "cn.elvea.platform.commons.autoconfigure.properties.CommonsProperties",
+            "defaultValue": 1,
+            "name": "platform.id-worker-datacenter-id",
+            "description": "数据中心ID",
+            "type": "java.lang.Integer"
+        },
+        {
+            "sourceType": "cn.elvea.platform.commons.autoconfigure.properties.CommonsProperties",
+            "defaultValue": 1,
+            "name": "platform.id-worker-worker-id",
+            "description": "工作机器ID",
+            "type": "java.lang.Integer"
+        }
+    ]
+}
