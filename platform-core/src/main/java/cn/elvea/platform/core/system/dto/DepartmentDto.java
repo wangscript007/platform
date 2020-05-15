@@ -3,6 +3,8 @@ package cn.elvea.platform.core.system.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+
 /**
  * Department
  *
@@ -10,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class DepartmentDto {
+public class DepartmentDto implements Serializable {
     // 部门编号
     private String code;
     // 部门标题

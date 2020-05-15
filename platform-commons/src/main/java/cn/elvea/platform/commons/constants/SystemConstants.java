@@ -8,6 +8,11 @@ package cn.elvea.platform.commons.constants;
 public interface SystemConstants {
 
     /**
+     * 系统版本
+     */
+    String VERSION = "1.0.0";
+
+    /**
      * 系统默认编码
      */
     String ENCODING = "UTF-8";

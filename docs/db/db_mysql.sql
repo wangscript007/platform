@@ -160,21 +160,37 @@ CREATE TABLE `sys_position`
 /* 用户表 */
 CREATE TABLE `sys_user`
 (
-    `id`          BIGINT UNSIGNED COMMENT 'ID',
-    `username`    VARCHAR(150) COMMENT '用户名',
-    `email`       VARCHAR(150) COMMENT '电子邮箱',
-    `mobile`      VARCHAR(150) COMMENT '手机号码',
-    `password`    VARCHAR(255) COMMENT '密码',
-    `nickname`    VARCHAR(255) COMMENT '昵称',
-    `description` VARCHAR(255) COMMENT '备注',
-    `status`      TINYINT(1) COMMENT '状态',
-    `active`      TINYINT UNSIGNED COMMENT '启用状态',
-    `created_at`  DATETIME COMMENT '创建时间',
-    `created_by`  BIGINT UNSIGNED COMMENT '创建人',
-    `updated_at`  DATETIME COMMENT '修改时间',
-    `updated_by`  BIGINT UNSIGNED COMMENT '修改时间',
-    `deleted_at`  DATETIME COMMENT '删除时间',
-    `deleted_by`  BIGINT UNSIGNED COMMENT '删除人',
+    `id`               BIGINT UNSIGNED COMMENT 'ID',
+    `username`         VARCHAR(150) COMMENT '用户名',
+    `email`            VARCHAR(150) COMMENT '电子邮箱',
+    `mobile`           VARCHAR(150) COMMENT '手机号码',
+    `password`         VARCHAR(255) COMMENT '密码',
+    `nickname`         VARCHAR(255) COMMENT '昵称',
+    `fullname`         VARCHAR(255) COMMENT '全名',
+    `english_name`     VARCHAR(255) COMMENT '英文名',
+    `id_card`          VARCHAR(50) COMMENT '身份证',
+    `sex`              VARCHAR(10) COMMENT '性别',
+    `birthday`         DATETIME COMMENT '生日',
+    `description`      VARCHAR(255) COMMENT '备注',
+    `start_date`       DATETIME COMMENT '有效开始日期',
+    `end_date`         DATETIME COMMENT '有效结束日期',
+    `entry_date`       DATETIME COMMENT '入职日期',
+    `resignation_date` DATETIME COMMENT '离职日期',
+    `register_at`      DATETIME COMMENT '注册时间',
+    `approval_at`      DATETIME COMMENT '审批日期',
+    `approval_by`      BIGINT UNSIGNED COMMENT '审批人',
+    `status`           TINYINT(1) UNSIGNED COMMENT '状态',
+    `source`           VARCHAR(100) COMMENT '来源',
+    `active`           TINYINT UNSIGNED COMMENT '启用状态',
+    `created_at`       DATETIME COMMENT '创建时间',
+    `created_by`       BIGINT UNSIGNED COMMENT '创建人',
+    `updated_at`       DATETIME COMMENT '修改时间',
+    `updated_by`       BIGINT UNSIGNED COMMENT '修改时间',
+    `deleted_at`       DATETIME COMMENT '删除时间',
+    `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
+    `source_id`        VARCHAR(255) COMMENT '来源标识',
+    `source_code`      VARCHAR(255) COMMENT '来源编码',
+    `source_extra`     VARCHAR(255) COMMENT '来源额外信息',
     CONSTRAINT `pk_sys_user_id` PRIMARY KEY (`id`)
 );
 
@@ -211,6 +227,85 @@ CREATE TABLE `sys_entity_relation`
     `created_by` BIGINT UNSIGNED COMMENT '创建人',
     CONSTRAINT `pk_sys_entity_relation` PRIMARY KEY (`id`)
 );
+
+/* 用户登录会话记录 */
+CREATE TABLE `sys_user_session`
+(
+    `id`                   BIGINT UNSIGNED NOT NULL COMMENT 'ID',
+    `user_id`              BIGINT UNSIGNED NOT NULL COMMENT 'User ID',
+    `session_id`           VARCHAR(150) COMMENT 'Session ID',
+    `host`                 VARCHAR(150) COMMENT '登录主机',
+    `device`               VARCHAR(150) COMMENT '登录设备',
+    `client_version`       VARCHAR(150) COMMENT '客户端版本',
+    `platform`             VARCHAR(150) COMMENT '登录平台',
+    `access_token`         TEXT(1000) COMMENT 'Access Token',
+    `refresh_token`        TEXT(1000) COMMENT 'Refresh Token',
+    `start_datetime`       DATETIME COMMENT '会话开始时间',
+    `last_access_datetime` DATETIME COMMENT '最近访问时间',
+    `end_datetime`         DATETIME COMMENT '会话结束时间',
+    `total_time`           INT UNSIGNED COMMENT '在线时长',
+    `start_year`           INT UNSIGNED COMMENT '年',
+    `start_month`          INT UNSIGNED COMMENT '月',
+    `start_day`            INT UNSIGNED COMMENT '日',
+    `start_hour`           INT UNSIGNED COMMENT '时',
+    `start_minute`         INT UNSIGNED COMMENT '分',
+    CONSTRAINT `pk_sys_user_session_id` PRIMARY KEY (`id`)
+);
+ALTER TABLE `sys_user_session`
+    COMMENT '用户会话表';
+
+/* 用户会话刷新历史记录表 */
+CREATE TABLE `sys_user_session_token_history`
+(
+    `id`            BIGINT UNSIGNED NOT NULL COMMENT 'ID',
+    `user_id`       BIGINT UNSIGNED NOT NULL COMMENT 'User ID',
+    `session_id`    VARCHAR(150) COMMENT 'Session ID',
+    `token`         TEXT(1000) COMMENT 'Token',
+    `refresh_token` TEXT(1000) COMMENT 'Refresh Token',
+    `created_at`    DATETIME COMMENT '创建时间',
+    `created_by`    BIGINT UNSIGNED COMMENT '创建人',
+    CONSTRAINT `pk_sys_user_ses_token_his_id` PRIMARY KEY (`id`)
+);
+ALTER TABLE `sys_user_session_token_history`
+    COMMENT '用户会话刷新历史记录表';
+
+/* ========================================================================================================= */
+/* 国际化 */
+/* ========================================================================================================= */
+
+/* 语言类型 */
+CREATE TABLE `sys_lang_type`
+(
+    `id`          BIGINT UNSIGNED COMMENT 'ID',
+    `locale`      VARCHAR(100) COMMENT '编号',
+    `label`       VARCHAR(150) COMMENT '文本',
+    `description` VARCHAR(250) COMMENT '备注',
+    `default_ind` TINYINT UNSIGNED COMMENT '默认语言',
+    `active`      TINYINT UNSIGNED COMMENT '启用状态',
+    CONSTRAINT `pk_sys_lang_type` PRIMARY KEY (`id`)
+);
+ALTER TABLE `sys_lang_type`
+    COMMENT '语言类型表';
+
+/* 多语言文本表 */
+CREATE TABLE `sys_lang_label`
+(
+    `id`               BIGINT UNSIGNED COMMENT 'ID',
+    `lang_type_id`     BIGINT UNSIGNED COMMENT '语言类型ID',
+    `target_type`      VARCHAR(100) COMMENT '目标类型',
+    `target_entity_id` BIGINT UNSIGNED COMMENT '目标实体ID',
+    `label`            VARCHAR(255) COMMENT '多语言文本',
+    `created_at`       DATETIME COMMENT '创建时间',
+    `created_by`       BIGINT UNSIGNED COMMENT '创建人',
+    `updated_at`       DATETIME COMMENT '更新时间',
+    `updated_by`       BIGINT UNSIGNED COMMENT '更新人',
+    CONSTRAINT `pk_sys_lang_label` PRIMARY KEY (`id`)
+);
+ALTER TABLE `sys_lang_label`
+    COMMENT '多语言文本表';
+
+CREATE INDEX `ix_sys_lang_label_lt_id` ON `sys_lang_label` (`lang_type_id`);
+CREATE INDEX `ix_sys_lang_label_t` ON `sys_lang_label` (`target_type`, `target_entity_id`);
 
 /* ========================================================================================================= */
 /* 通用分类 */
@@ -374,7 +469,11 @@ ALTER TABLE `sys_tag_relation`
 
 CREATE INDEX `ix_sys_tag_relation` ON `sys_tag_relation` (`tag_type_id`, `tag_id`, `target_type`, `target_entity_id`);
 
+/* ========================================================================================================= */
 /* 基础数据 */
+/* ========================================================================================================= */
+
+/* 用户与角色 */
 insert into sys_role_type (id, code, label, description, active)
 values (1, 'SYSTEM_ADMINISTRTOR', 'label_role_system_administrtor', 'System Administrator', 1),
        (2, 'ADMINISTRTOR', 'label_role_administrtor', 'Administrator', 1),
@@ -389,3 +488,9 @@ values (1, 'SADMIN', 'System Administrator', 'label_role_system_administrtor', '
 
 insert into sys_user (id, username, nickname, active, created_at, password)
 values (1, 'admin', 'Administrator', 1, now(), '$2a$10$MLkjYEPJkO6KNrfUUBld6eWVr1G09nugg5UpIQVUtsQ.3Z9U2lOSK');
+
+/* 语言类型 */
+insert into sys_lang_type (id, locale, label, description, default_ind, active)
+values (1, 'zh_CN', 'label_lang_type_zh_cn', '简体中文', 1, 1),
+       (2, 'zh_CN', 'label_lang_type_zh_tw', '繁体中文', 2, 1),
+       (3, 'zh_CN', 'label_lang_type_en_us', '美式英语', 3, 1);

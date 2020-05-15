@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.service;
 
-import cn.elvea.ApplicationBaseWebTests;
+import cn.elvea.ApplicationBaseTests;
 import cn.elvea.platform.core.system.dto.UserDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author elvea
  */
-public class UserServiceTests extends ApplicationBaseWebTests {
+public class UserServiceTests extends ApplicationBaseTests {
 
     @Autowired
     private UserService userService;

@@ -3,12 +3,16 @@ package cn.elvea.platform.core.system.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+
 /**
  * Position
+ *
+ * @author elvea
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PositionDto {
+public class PositionDto implements Serializable {
     // 岗位编号
     private String code;
     // 岗位标题

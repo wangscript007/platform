@@ -14,6 +14,8 @@ dependencies {
     api("org.apache.commons:commons-compress:${commonsCompressVersion}")
     api("commons-codec:commons-codec:${commonsCodecVersion}")
     api("commons-io:commons-io:${commonsIoVersion}")
+    // swagger
+    api("io.swagger.core.v3:swagger-annotations:${swaggerAnnotationsVersion}")
     // 3rd party
     api("joda-time:joda-time")
     api("mysql:mysql-connector-java")
@@ -25,7 +27,20 @@ dependencies {
     api("com.google.guava:guava:${guavaVersion}")
     api("org.redisson:redisson:${redissonVersion}")
     api("com.nimbusds:nimbus-jose-jwt:${nimbusJoseJwtVersion}")
-    api("io.swagger:swagger-annotations:${swaggerAnnotationsVersion}")
+    implementation("org.apache.poi:poi:${poiVersion}")
+    implementation("org.apache.poi:poi-ooxml:${poiVersion}")
+    implementation("org.apache.poi:poi-ooxml-schemas:${poiVersion}")
+    implementation("cn.afterturn:easypoi-base:${easyPoiVersion}")
+    implementation("com.alibaba:easyexcel:${easyExcelVersion}")
+    implementation("org.apache.pdfbox:pdfbox:${pdfboxVersion}")
+    // wxJavaVersion
+    implementation("com.github.binarywang:weixin-java-mp:${weixinSdkVersion}")
+    implementation("com.github.binarywang:weixin-java-cp:${weixinSdkVersion}")
+    implementation("com.github.binarywang:weixin-java-miniapp:${weixinSdkVersion}")
+    // cloud
+    implementation("com.aliyun:aliyun-java-sdk-core:${aliyunJavaSdkVersion}")
+    implementation("com.aliyun.oss:aliyun-sdk-oss:${aliyunSdkOssVersion}")
+    implementation("com.qcloud:cos_api:${qCloudCosApiVersion}")
     // compileOnly
     compileOnly("javax.servlet:javax.servlet-api")
     compileOnly("javax.transaction:javax.transaction-api")

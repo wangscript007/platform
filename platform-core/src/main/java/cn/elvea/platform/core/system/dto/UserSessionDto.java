@@ -3,14 +3,17 @@ package cn.elvea.platform.core.system.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * UserSession
+ *
+ * @author elvea
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserSessionDto {
+public class UserSessionDto implements Serializable {
     // 会话ID
     private String sessionId;
     // 实体ID

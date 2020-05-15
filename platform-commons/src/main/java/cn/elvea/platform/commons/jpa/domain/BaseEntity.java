@@ -22,7 +22,7 @@ public abstract class BaseEntity extends AbstractEntity {
      */
     @Id
     @GeneratedValue(generator = "IdGenerator")
-    @GenericGenerator(name = "IdGenerator", strategy = "cn.elvea.platform.commons.jpa.id.SnowflakeIdGenerator")
+    @GenericGenerator(name = "IdGenerator", strategy = "cn.elvea.platform.commons.jpa.id.IdGenerator")
     @JsonSerialize(using = ToStringSerializer.class)
     protected Long id;
 

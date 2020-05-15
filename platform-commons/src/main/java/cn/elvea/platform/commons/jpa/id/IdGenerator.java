@@ -14,11 +14,11 @@ import java.io.Serializable;
 import java.util.Properties;
 
 /**
- * SnowflakeIdGenerator
+ * IdGenerator
  *
  * @author elvea
  */
-public class SnowflakeIdGenerator implements IdentifierGenerator, Configurable {
+public class IdGenerator implements IdentifierGenerator, Configurable {
 
     @Override
     public void configure(Type type, Properties params, ServiceRegistry serviceRegistry) throws MappingException {

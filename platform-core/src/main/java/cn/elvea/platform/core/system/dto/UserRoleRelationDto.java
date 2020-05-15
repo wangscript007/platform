@@ -3,14 +3,17 @@ package cn.elvea.platform.core.system.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * UserRole
+ *
+ * @author elvea
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserRoleRelationDto {
+public class UserRoleRelationDto implements Serializable {
     // 实体ID
     private Long entityId;
     // 权限ID

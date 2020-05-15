@@ -3,15 +3,18 @@ package cn.elvea.platform.core.system.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * User
+ *
+ * @author elvea
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserDto {
+public class UserDto implements Serializable {
     /**
      * 用户名
      */
@@ -43,7 +46,7 @@ public class UserDto {
     /**
      * 创建人
      */
-    private String createdBy;
+    private Long createdBy;
     /**
      * 修改时间
      */
@@ -51,7 +54,19 @@ public class UserDto {
     /**
      * 修改人
      */
-    private String updatedBy;
+    private Long updatedBy;
+    /**
+     * 删除时间
+     */
+    private String deletedAt;
+    /**
+     * 删除人
+     */
+    private Long deletedBy;
+    /**
+     * 用户角色ID
+     */
+    private List<Long> roleIds = Collections.emptyList();
     /**
      * 用户角色
      */

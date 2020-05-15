@@ -1,8 +1,7 @@
 package cn.elvea.platform.core.system.domain;
 
 import cn.elvea.platform.commons.jpa.domain.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -13,6 +12,9 @@ import javax.persistence.Table;
  * @author elvea
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "sys_position")

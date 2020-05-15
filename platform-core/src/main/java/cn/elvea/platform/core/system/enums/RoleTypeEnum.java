@@ -5,7 +5,7 @@ package cn.elvea.platform.core.system.enums;
  *
  * @author elvea
  */
-public enum RoleType {
+public enum RoleTypeEnum {
     SYSTEM_ADMINISTRATOR(1, new int[]{PermissionType.SYSTEM.getType(), PermissionType.ADMIN.getType()}, "超级管理员"),
     ADMINISTRATOR(2, new int[]{PermissionType.ADMIN.getType()}, "管理员"),
     USER(3, new int[]{PermissionType.USER.getType()}, "普通用户");
@@ -17,15 +17,15 @@ public enum RoleType {
     // 当前角色包含的权限类型
     private final int[] includePermissionTypes;
 
-    RoleType(final int type, final int[] includePermissionTypes, final String desc) {
+    RoleTypeEnum(final int type, final int[] includePermissionTypes, final String desc) {
         this.type = type;
         this.desc = desc;
         this.includePermissionTypes = includePermissionTypes;
     }
 
-    public static RoleType getRoleType(int type) {
-        RoleType[] ts = RoleType.values();
-        for (RoleType t : ts) {
+    public static RoleTypeEnum getRoleType(int type) {
+        RoleTypeEnum[] ts = RoleTypeEnum.values();
+        for (RoleTypeEnum t : ts) {
             if (t.getType() == type) {
                 return t;
             }

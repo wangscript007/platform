@@ -1,20 +1,14 @@
 package cn.elvea.platform.core.system.dto;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * EntityRelation
+ *
+ * @author elvea
  */
-public class EntityRelationDto {
-    public static final String R_TYPE_PARENT = "_PARENT_";
-    public static final String R_TYPE_CURRENT = "_CURRENT_";
-    public final static String R_ORG_PARENT_ORG = "ORG_PARENT_ORG";
-    public final static String R_DPT_PARENT_DPT = "DPT_PARENT_DPT";
-    public final static String R_PST_PARENT_PST = "PST_PARENT_PST";
-    public final static String R_USR_CURRENT_ORG = "USR_CURRENT_ORG";
-    public final static String R_USR_CURRENT_DPT = "USR_CURRENT_DPT";
-    public final static String R_USR_CURRENT_PST = "USR_CURRENT_PST";
-
+public class EntityRelationDto implements Serializable {
     // 实体关联父ID
     private Long parentId;
     // 实体关联子ID

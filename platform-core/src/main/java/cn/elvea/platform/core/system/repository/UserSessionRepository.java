@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author elvea
  */
 @Repository
-public interface UserSessionRepository
-        extends JpaRepository<UserSessionEntity, Long> {
+public interface UserSessionRepository extends JpaRepository<UserSessionEntity, Long> {
 }

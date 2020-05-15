@@ -1,9 +1,7 @@
 package cn.elvea.platform.core.system.domain;
 
 import cn.elvea.platform.commons.jpa.domain.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,7 +12,9 @@ import javax.persistence.Table;
  * @author elvea
  */
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "sys_role")
@@ -35,9 +35,4 @@ public class RoleEntity extends BaseEntity {
      * 启用状态
      */
     private Boolean active;
-
-    public RoleEntity(String code) {
-        this.code = code;
-    }
-
 }

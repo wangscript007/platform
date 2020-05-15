@@ -13,6 +13,9 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // spring security oauth
     implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springBootOAuthVersion}")
+    // spring doc
+    implementation("org.springdoc:springdoc-openapi-ui:${springDocVersion}")
+    implementation("org.springdoc:springdoc-openapi-security:${springDocVersion}")
     // modules
     api project(':platform-commons')
     api project(':platform-core')

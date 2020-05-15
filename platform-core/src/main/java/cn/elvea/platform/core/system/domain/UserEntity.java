@@ -1,14 +1,12 @@
 package cn.elvea.platform.core.system.domain;
 
 import cn.elvea.platform.commons.jpa.domain.BaseEntity;
-import com.google.common.collect.Lists;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * UserEntity
@@ -16,6 +14,9 @@ import java.util.List;
  * @author elvea
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "sys_user")
@@ -33,36 +34,103 @@ public class UserEntity extends BaseEntity {
      */
     private String mobile;
     /**
+     * 密码
+     */
+    private String password;
+    /**
      * 昵称
      */
     private String nickname;
     /**
-     * 密码
+     * 全名
      */
-    private String password;
+    private String fullname;
+    /**
+     * 英文名
+     */
+    private String englishName;
+    /**
+     * 身份证号码
+     */
+    private String idCard;
+    /**
+     * 性别
+     */
+    private String sex;
+    /**
+     * 生日
+     */
+    private LocalDate birthday;
+    /**
+     * 备注
+     */
+    private String description;
+    /**
+     * 有效期开始时间
+     */
+    private LocalDateTime startDate;
+    /**
+     * 有效期结束时间
+     */
+    private LocalDateTime endDate;
+    /**
+     * 入职日期
+     */
+    private LocalDate entryDate;
+    /**
+     * 离职日期
+     */
+    private LocalDate resignationDate;
+    /**
+     * 注册时间
+     */
+    private LocalDateTime registerAt;
+    /**
+     * 审批时间
+     */
+    private LocalDateTime approvalAt;
+    /**
+     * 审批人
+     */
+    private Long approvalBy;
     /**
      * 用户状态
      */
     private String status;
     /**
-     * 创建时间
+     * 来源
      */
-    private String createdAt;
+    private String source;
+    /**
+     * 启用状态
+     */
+    private Boolean active;
     /**
      * 创建人
      */
     private String createdBy;
     /**
-     * 修改时间
+     * 创建时间
      */
-    private String updatedAt;
+    private LocalDateTime createdAt;
     /**
      * 修改人
      */
-    private String updatedBy;
+    private Long updatedBy;
     /**
-     * 用户角色
+     * 修改时间
      */
-    @Transient
-    private List<RoleEntity> roles = Lists.newArrayList();
+    private LocalDateTime updatedAt;
+    /**
+     * 来源标识
+     */
+    private String sourceId;
+    /**
+     * 来源编号
+     */
+    private String sourceCode;
+    /**
+     * 来源附加信息
+     */
+    private String sourceExtra;
 }

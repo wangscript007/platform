@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * DictionaryDto
+ * DictionaryTypeDto
  *
  * @author elvea
  */

@@ -1,6 +1,7 @@
 package cn.elvea.platform.core.system.dto;
 
-import io.swagger.annotations.ApiModel;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 
 import java.io.Serializable;
@@ -11,15 +12,16 @@ import java.io.Serializable;
  * @author elvea
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "RoleTypeDto", description = "角色类型")
 public class RoleTypeDto implements Serializable {
     /**
      * ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     /**
      * 编号

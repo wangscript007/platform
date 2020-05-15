@@ -1,8 +1,7 @@
 package cn.elvea.platform.core.system.domain;
 
 import cn.elvea.platform.commons.jpa.domain.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 /**
  * ClientEntity
@@ -10,6 +9,9 @@ import lombok.EqualsAndHashCode;
  * @author elvea
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class ClientEntity extends BaseEntity {
     private String clientId;
