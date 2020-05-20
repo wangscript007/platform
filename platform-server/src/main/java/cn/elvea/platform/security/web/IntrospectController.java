@@ -1,5 +1,8 @@
 package cn.elvea.platform.security.web;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -16,6 +19,7 @@ import java.util.Map;
  * @author elvea
  */
 @RestController
+@Tag(name = "Security", description = "认证授权控制器")
 public class IntrospectController {
 
     private final TokenStore tokenStore;
@@ -24,6 +28,14 @@ public class IntrospectController {
         this.tokenStore = tokenStore;
     }
 
+    /**
+     * INTROSPECT
+     *
+     * @param token 凭证
+     * @return Map
+     */
+    @Operation(summary = "INTROSPECT")
+    @ApiResponse(description = "INTROSPECT")
     @PostMapping("/introspect")
     public Map<String, Object> introspect(@RequestParam("token") String token) {
         OAuth2AccessToken accessToken = this.tokenStore.readAccessToken(token);

@@ -1,4 +1,4 @@
-package cn.elvea.platform.security.web;
+package cn.elvea.platform.core.system.web;
 
 import cn.elvea.platform.commons.constants.SystemConstants;
 import cn.elvea.platform.commons.web.WebResponse;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @author elvea
  */
 @RestController
-@Tag(name = "default", description = "默认控制器")
+@Tag(name = "Default", description = "默认控制器")
 public class DefaultController {
 
     /**

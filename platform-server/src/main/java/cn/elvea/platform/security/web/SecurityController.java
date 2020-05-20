@@ -15,13 +15,13 @@ import java.util.Map;
 import static cn.elvea.platform.commons.constants.SecurityConstants.AUTH_USER_PATH;
 
 /**
- * AuthController
+ * SecurityController
  *
  * @author elvea
  */
 @RestController
-@Tag(name = "auth", description = "认证和授权控制器")
-public class AuthController {
+@Tag(name = "Security", description = "认证和授权控制器")
+public class SecurityController {
 
     /**
      * 用户

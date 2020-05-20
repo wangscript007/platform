@@ -5,6 +5,7 @@ import cn.elvea.platform.core.system.dto.RoleTypeDto;
 import cn.elvea.platform.core.system.service.RoleService;
 import cn.elvea.platform.core.system.service.RoleTypeService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,14 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/role-type")
-public class RoleTypeController {
+@Tag(name = "Role", description = "角色控制器")
+public class RoleController {
 
     private final RoleService roleService;
 
     private final RoleTypeService roleTypeService;
 
-    public RoleTypeController(RoleService roleService,
-                              RoleTypeService roleTypeService) {
+    public RoleController(RoleService roleService,
+                          RoleTypeService roleTypeService) {
         this.roleService = roleService;
         this.roleTypeService = roleTypeService;
     }

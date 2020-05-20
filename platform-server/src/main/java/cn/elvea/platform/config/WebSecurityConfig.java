@@ -16,10 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
-import static cn.elvea.platform.commons.constants.SecurityConstants.AUTH_LOGIN_PATH;
-import static cn.elvea.platform.commons.constants.SecurityConstants.AUTH_USER_PATH;
-import static org.springframework.security.config.Customizer.withDefaults;
-
 /**
  * WebSecurityConfig
  *
@@ -61,25 +57,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .httpBasic().disable()
-                .csrf()
-                .ignoringRequestMatchers(request -> "/introspect".equals(request.getRequestURI()))
-                .and()
                 .authorizeRequests()
                 .mvcMatchers("/.well-known/jwks.json").permitAll()
                 .antMatchers("/favicon.ico", "/static/**", "/webjars/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/oauth/*").permitAll()
+                .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/swagger-ui/**", "/swagger.html", "/api-docs", "/api-docs/swagger-config").permitAll()
-                .antMatchers(AUTH_LOGIN_PATH).permitAll()
-                .antMatchers(AUTH_USER_PATH).permitAll()
                 .antMatchers("/api/version").hasAuthority("SCOPE_webapp")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .oauth2ResourceServer(oauth2ResourceServer ->
-                        oauth2ResourceServer.jwt(withDefaults())
-                );
+                .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.decoder(jwtDecoder)));
     }
 
 }
