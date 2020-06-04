@@ -29,12 +29,37 @@
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingRandomAccessFile>
+
+        <!-- Druid -->
+        <RollingRandomAccessFile name="DruidSqlRollingFile"
+                                 fileName="${Log_Path}/log_druid.log"
+                                 filePattern="${Log_Path}/backup/log_druid_%d{yyyy-MM-dd}_%i.log.zip">
+            <PatternLayout pattern="${Pattern_Layout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${Triggering_Policy_Size}"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${Log_Path}/backup">
+                    <IfFileName glob="log_druid.*.log.zip"/>
+                    <IfLastModified age="${IfLastModified}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
     </Appenders>
 
     <Loggers>
         <Logger name="org.hibernate" level="WARN"/>
         <Logger name="org.springframework" level="WARN"/>
         <Logger name="org.springframework.security" level="DEBUG"/>
+
+        <!-- Druid -->
+        <Logger name="druid.sql.Statement" level="DEBUG" additivity="false">
+            <AppenderRef ref="DruidSqlRollingFile"/>
+        </Logger>
+        <Logger name="druid.sql.Statement" level="DEBUG" additivity="false">
+            <AppenderRef ref="DruidSqlRollingFile"/>
+        </Logger>
 
         <!-- 后台线程 -->
         <Logger name="cn.elvea" level="DEBUG" additivity="false">

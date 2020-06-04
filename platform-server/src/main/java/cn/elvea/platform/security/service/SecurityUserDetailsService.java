@@ -17,6 +17,7 @@ import java.util.List;
  * SecurityUserDetailsServices
  *
  * @author elvea
+ * @see UserDetailsService
  */
 @Service
 public class SecurityUserDetailsService implements UserDetailsService {

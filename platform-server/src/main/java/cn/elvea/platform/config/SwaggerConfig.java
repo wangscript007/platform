@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * SwaggerConfig
+ * 接口文档配置
+ * <p>
+ * <a href="https://springdoc.org/">springdoc-openapi</a>
  *
  * @author elvea
  */

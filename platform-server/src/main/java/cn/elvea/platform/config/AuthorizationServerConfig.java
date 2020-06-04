@@ -5,7 +5,6 @@ import cn.elvea.platform.security.support.SubjectAttributeUserTokenConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -24,13 +23,14 @@ import java.security.KeyPair;
 
 /**
  * 认证服务器配置
+ * <p>
+ * <a href="https://docs.spring.io/spring-security-oauth2-boot/docs/current/reference/html5/">OAuth2 Boot</a>
  *
  * @author elvea
  */
-@Order
 @Configuration
 @EnableAuthorizationServer
-public class OAuthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private final DataSource dataSource;
 
@@ -39,7 +39,7 @@ public class OAuthAuthorizationServerConfig extends AuthorizationServerConfigure
     private final KeyPair keyPair;
 
     @Autowired
-    public OAuthAuthorizationServerConfig(
+    public AuthorizationServerConfig(
             AuthenticationConfiguration authenticationConfiguration,
             KeyPair keyPair,
             DataSource dataSource
@@ -71,7 +71,6 @@ public class OAuthAuthorizationServerConfig extends AuthorizationServerConfigure
                 .checkTokenAccess("isAuthenticated()")
                 .allowFormAuthenticationForClients();
     }
-
 
     @Bean
     public TokenStore tokenStore() {

@@ -4,7 +4,6 @@ import cn.elvea.platform.security.service.SecurityUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,16 +11,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 /**
- * WebSecurityConfig
+ * Web Security
  *
  * @author elvea
  */
-@Order(1)
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -31,16 +28,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtDecoder jwtDecoder;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public WebSecurityConfig(SecurityUserDetailsService userDetailsService, JwtDecoder jwtDecoder) {
-        this.userDetailsService = userDetailsService;
+    public WebSecurityConfig(PasswordEncoder passwordEncoder,
+                             JwtDecoder jwtDecoder,
+                             SecurityUserDetailsService userDetailsService) {
+        this.passwordEncoder = passwordEncoder;
         this.jwtDecoder = jwtDecoder;
+        this.userDetailsService = userDetailsService;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     @Override
@@ -50,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.userDetailsService).passwordEncoder(this.passwordEncoder());
+        auth.userDetailsService(this.userDetailsService).passwordEncoder(this.passwordEncoder);
     }
 
     @Override
@@ -62,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/favicon.ico", "/static/**", "/webjars/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/oauth/**").permitAll()
+                .antMatchers("/druid/**").permitAll()
                 .antMatchers("/swagger-ui/**", "/swagger.html", "/api-docs", "/api-docs/swagger-config").permitAll()
                 .antMatchers("/api/version").hasAuthority("SCOPE_webapp")
                 .anyRequest().authenticated()
