@@ -1,7 +1,7 @@
 package cn.elvea.platform.core.system.repository;
 
 import cn.elvea.platform.core.system.domain.PermissionEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author elvea
  */
 @Repository
-public interface PermissionRepository
-        extends JpaRepository<PermissionEntity, Long> {
+public interface PermissionRepository extends CrudRepository<PermissionEntity, Long> {
 }

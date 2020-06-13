@@ -1,9 +1,10 @@
-package cn.elvea.platform.commons.jpa.service;
+package cn.elvea.platform.commons.persistence.jdbc.service;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Optional;
  * @param <R> 仓库类型
  * @see BaseService
  */
-public abstract class AbstractService<K extends Serializable, T extends BaseEntity, R extends JpaRepository<T, K>>
+public abstract class AbstractService<K extends Serializable, T extends BaseEntity, R extends CrudRepository<T, K>>
         implements BaseService<T, K> {
 
     @Autowired
@@ -28,7 +29,7 @@ public abstract class AbstractService<K extends Serializable, T extends BaseEnti
      */
     @Override
     public T findById(K id) {
-        return this.repository.getOne(id);
+        return this.repository.findById(id).orElse(null);
     }
 
     /**
@@ -44,7 +45,7 @@ public abstract class AbstractService<K extends Serializable, T extends BaseEnti
      */
     @Override
     public Optional<T> findOneByExample(Example<T> example) {
-        return this.repository.findOne(example);
+        return null;
     }
 
     /**
@@ -52,7 +53,7 @@ public abstract class AbstractService<K extends Serializable, T extends BaseEnti
      */
     @Override
     public List<T> findAllById(Iterable<K> ids) {
-        return this.repository.findAllById(ids);
+        return Lists.newArrayList(this.repository.findAllById(ids).iterator());
     }
 
     /**
@@ -60,7 +61,7 @@ public abstract class AbstractService<K extends Serializable, T extends BaseEnti
      */
     @Override
     public List<T> findAll() {
-        return this.repository.findAll();
+        return Lists.newArrayList(this.repository.findAll().iterator());
     }
 
     /**
@@ -84,7 +85,7 @@ public abstract class AbstractService<K extends Serializable, T extends BaseEnti
      */
     @Override
     public void deleteInBatch(Iterable<T> entities) {
-        this.repository.deleteInBatch(entities);
+        this.repository.deleteAll(entities);
     }
 
     /**
@@ -108,7 +109,7 @@ public abstract class AbstractService<K extends Serializable, T extends BaseEnti
      */
     @Override
     public void saveAndFlush(T entity) {
-        this.repository.saveAndFlush(entity);
+        this.repository.save(entity);
     }
 
     /**

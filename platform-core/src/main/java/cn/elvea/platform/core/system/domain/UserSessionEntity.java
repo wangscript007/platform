@@ -1,12 +1,11 @@
 package cn.elvea.platform.core.system.domain;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
@@ -19,8 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_user_session")
+@Table("sys_user_session")
 public class UserSessionEntity extends BaseEntity {
     /**
      * 用户ID

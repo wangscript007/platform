@@ -1,15 +1,18 @@
 package cn.elvea.platform.core.system.domain;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * UserEntity
+ * 用户
  *
  * @author elvea
  */
@@ -18,8 +21,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_user")
+@Table("sys_user")
 public class UserEntity extends BaseEntity {
     /**
      * 用户名
@@ -98,39 +100,47 @@ public class UserEntity extends BaseEntity {
      */
     private String status;
     /**
-     * 来源
-     */
-    private String source;
-    /**
      * 启用状态
      */
     private Boolean active;
     /**
-     * 创建人
-     */
-    private String createdBy;
-    /**
      * 创建时间
      */
+    @CreatedDate
     private LocalDateTime createdAt;
     /**
-     * 修改人
+     * 创建人
      */
-    private Long updatedBy;
+    @CreatedBy
+    private Long createdBy;
     /**
-     * 修改时间
+     * 最后修改时间
      */
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private LocalDateTime lastModifiedAt;
+    /**
+     * 最后修改人
+     */
+    @LastModifiedBy
+    private Long lastModifiedBy;
+    /**
+     * 删除时间
+     */
+    private LocalDateTime deletedAt;
+    /**
+     * 删除人
+     */
+    private String deletedBy;
+    /**
+     * 来源
+     */
+    private String source;
     /**
      * 来源标识
      */
-    private String sourceId;
+    private String sourceKey;
     /**
-     * 来源编号
-     */
-    private String sourceCode;
-    /**
-     * 来源附加信息
+     * 来源信息
      */
     private String sourceExtra;
 }

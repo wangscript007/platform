@@ -1,6 +1,6 @@
-package cn.elvea.platform.commons.jpa.service;
+package cn.elvea.platform.commons.persistence.jdbc.service;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import org.springframework.data.domain.Example;
 
 import java.io.Serializable;

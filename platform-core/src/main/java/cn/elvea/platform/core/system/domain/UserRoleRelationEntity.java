@@ -1,10 +1,9 @@
 package cn.elvea.platform.core.system.domain;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import lombok.*;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.sql.Timestamp;
 
 /**
@@ -17,8 +16,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_user_role_relation")
+@Table("sys_user_role_relation")
 public class UserRoleRelationEntity extends BaseEntity {
     // 实体ID
     private Long entityId;

@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.service.impl;
 
-import cn.elvea.platform.commons.jpa.service.AbstractService;
+import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
 import cn.elvea.platform.commons.utils.ConvertUtils;
 import cn.elvea.platform.core.system.domain.UserEntity;
 import cn.elvea.platform.core.system.dto.UserDto;
@@ -9,11 +9,14 @@ import cn.elvea.platform.core.system.service.UserService;
 import org.springframework.stereotype.Service;
 
 /**
+ * UserService
+ *
  * @author elvea
  * @see UserService
  */
 @Service
-public class UserServiceImpl extends AbstractService<Long, UserEntity, UserRepository>
+public class UserServiceImpl
+        extends AbstractService<Long, UserEntity, UserRepository>
         implements UserService {
 
     /**

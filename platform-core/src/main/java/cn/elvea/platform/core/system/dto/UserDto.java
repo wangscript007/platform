@@ -2,8 +2,13 @@ package cn.elvea.platform.core.system.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,19 +47,23 @@ public class UserDto implements Serializable {
     /**
      * 创建时间
      */
-    private String createdAt;
+    @CreatedDate
+    private LocalDateTime createdAt;
     /**
      * 创建人
      */
+    @CreatedBy
     private Long createdBy;
     /**
-     * 修改时间
+     * 最后修改时间
      */
-    private String updatedAt;
+    @LastModifiedDate
+    private LocalDateTime lastModifiedAt;
     /**
-     * 修改人
+     * 最后修改人
      */
-    private Long updatedBy;
+    @LastModifiedBy
+    private Long lastModifiedBy;
     /**
      * 删除时间
      */

@@ -1,11 +1,10 @@
 package cn.elvea.platform.core.tag.domain;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * TagRelationEntity
@@ -14,8 +13,7 @@ import javax.persistence.Table;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_tag_relation")
+@Table("sys_tag_relation")
 public class TagRelationEntity extends BaseEntity {
     /**
      * 标签类型ID

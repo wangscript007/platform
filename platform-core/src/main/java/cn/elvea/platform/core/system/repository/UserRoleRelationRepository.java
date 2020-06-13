@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author elvea
  */
 @Repository
-public interface UserRoleRelationRepository
-        extends CrudRepository<UserRoleRelationEntity, Long> {
+public interface UserRoleRelationRepository extends CrudRepository<UserRoleRelationEntity, Long> {
 }

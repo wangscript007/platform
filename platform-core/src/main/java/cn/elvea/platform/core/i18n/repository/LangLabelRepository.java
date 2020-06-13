@@ -1,7 +1,7 @@
 package cn.elvea.platform.core.i18n.repository;
 
 import cn.elvea.platform.core.i18n.domain.LangLabelEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author elvea
  */
 @Repository
-public interface LangLabelRepository extends JpaRepository<LangLabelEntity, Long> {
+public interface LangLabelRepository extends CrudRepository<LangLabelEntity, Long> {
 }

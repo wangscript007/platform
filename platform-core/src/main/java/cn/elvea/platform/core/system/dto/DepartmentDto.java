@@ -2,8 +2,13 @@ package cn.elvea.platform.core.system.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * Department
@@ -21,12 +26,24 @@ public class DepartmentDto implements Serializable {
     private String description;
     // 实体状态
     private String status;
-    // 实体创建时间
-    private String createdAt;
-    // 实体创建人
-    private String createdBy;
-    // 实体修改时间
-    private String updatedAt;
-    // 实体修改人
-    private String updatedBy;
+    /**
+     * 创建时间
+     */
+    @CreatedDate
+    private LocalDateTime createdAt;
+    /**
+     * 创建人
+     */
+    @CreatedBy
+    private Long createdBy;
+    /**
+     * 最后修改时间
+     */
+    @LastModifiedDate
+    private LocalDateTime lastModifiedAt;
+    /**
+     * 最后修改人
+     */
+    @LastModifiedBy
+    private Long lastModifiedBy;
 }

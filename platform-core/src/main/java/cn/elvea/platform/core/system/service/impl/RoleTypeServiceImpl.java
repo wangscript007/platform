@@ -24,7 +24,7 @@ public class RoleTypeServiceImpl implements RoleTypeService {
 
     @Override
     public RoleTypeDto findRoleTypeByCode(String code) {
-        RoleTypeEntity entity = this.roleTypeManager.findOneByCode(code);
+        RoleTypeEntity entity = this.roleTypeManager.findByCode(code);
         return ConvertUtils.convert(entity, RoleTypeDto.class);
     }
 

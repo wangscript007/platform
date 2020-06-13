@@ -87,73 +87,79 @@ CREATE TABLE `sys_role_type`
 /* 角色表 */
 CREATE TABLE `sys_role`
 (
-    `id`           BIGINT UNSIGNED COMMENT 'ID',
-    `role_type_id` BIGINT UNSIGNED COMMENT '角色类型ID',
-    `code`         VARCHAR(100) COMMENT '编号',
-    `title`        VARCHAR(150) COMMENT '标题',
-    `label`        VARCHAR(150) COMMENT '文本',
-    `description`  VARCHAR(255) COMMENT '简介',
-    `active`       TINYINT COMMENT '启用状态',
-    `created_at`   DATETIME COMMENT '创建时间',
-    `created_by`   BIGINT UNSIGNED COMMENT '创建人',
-    `updated_at`   DATETIME COMMENT '修改时间',
-    `updated_by`   BIGINT UNSIGNED COMMENT '修改人',
-    `deleted_at`   DATETIME COMMENT '删除时间',
-    `deleted_by`   BIGINT UNSIGNED COMMENT '删除人',
+    `id`               BIGINT UNSIGNED COMMENT 'ID',
+    `role_type_id`     BIGINT UNSIGNED COMMENT '角色类型ID',
+    `code`             VARCHAR(100) COMMENT '编号',
+    `title`            VARCHAR(150) COMMENT '标题',
+    `label`            VARCHAR(150) COMMENT '文本',
+    `description`      VARCHAR(255) COMMENT '简介',
+    `active`           TINYINT COMMENT '启用状态',
+    `created_at`       DATETIME COMMENT '创建时间',
+    `created_by`       BIGINT UNSIGNED COMMENT '创建人',
+    `last_modified_at` DATETIME COMMENT '最后修改时间',
+    `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
+    `deleted_at`       DATETIME COMMENT '删除时间',
+    `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
     CONSTRAINT `pk_sys_role` PRIMARY KEY (`id`)
 );
 
 /* 权限表 */
 CREATE TABLE `sys_permission`
 (
-    `id`          BIGINT UNSIGNED COMMENT 'ID',
-    `parent_id`   BIGINT UNSIGNED COMMENT 'ID',
-    `code`        VARCHAR(100) COMMENT '编号',
-    `title`       VARCHAR(150) COMMENT '标题',
-    `description` VARCHAR(255) COMMENT '简介',
-    `active`      TINYINT COMMENT '启用状态',
-    `created_at`  DATETIME COMMENT '创建时间',
-    `created_by`  BIGINT UNSIGNED COMMENT '创建人',
-    `updated_at`  DATETIME COMMENT '修改时间',
-    `updated_by`  BIGINT UNSIGNED COMMENT '修改人',
-    `deleted_at`  DATETIME COMMENT '删除时间',
-    `deleted_by`  BIGINT UNSIGNED COMMENT '删除人',
+    `id`               BIGINT UNSIGNED COMMENT 'ID',
+    `parent_id`        BIGINT UNSIGNED COMMENT 'ID',
+    `code`             VARCHAR(100) COMMENT '编号',
+    `title`            VARCHAR(150) COMMENT '标题',
+    `description`      VARCHAR(255) COMMENT '简介',
+    `active`           TINYINT COMMENT '启用状态',
+    `created_at`       DATETIME COMMENT '创建时间',
+    `created_by`       BIGINT UNSIGNED COMMENT '创建人',
+    `last_modified_at` DATETIME COMMENT '最后修改时间',
+    `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
+    `deleted_at`       DATETIME COMMENT '删除时间',
+    `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
     CONSTRAINT `pk_sys_permission` PRIMARY KEY (`id`)
 );
 
 /* 部门表 */
 CREATE TABLE `sys_department`
 (
-    `id`          BIGINT UNSIGNED COMMENT 'ID',
-    `code`        VARCHAR(150) COMMENT '编号',
-    `title`       VARCHAR(150) COMMENT '标题',
-    `description` VARCHAR(255) COMMENT '简介',
-    `root_ind`    TINYINT(1) COMMENT '是否顶层部门' DEFAULT 0,
-    `active`      TINYINT COMMENT '启用状态',
-    `created_at`  DATETIME COMMENT '创建时间',
-    `created_by`  BIGINT COMMENT '创建人',
-    `updated_at`  DATETIME COMMENT '修改时间',
-    `updated_by`  BIGINT COMMENT '修改时间',
-    `deleted_at`  DATETIME COMMENT '删除时间',
-    `deleted_by`  BIGINT COMMENT '删除人',
+    `id`               BIGINT UNSIGNED COMMENT 'ID',
+    `code`             VARCHAR(150) COMMENT '编号',
+    `title`            VARCHAR(150) COMMENT '标题',
+    `description`      VARCHAR(255) COMMENT '简介',
+    `root_ind`         TINYINT(1) COMMENT '是否顶层部门',
+    `active`           TINYINT COMMENT '启用状态',
+    `created_at`       DATETIME COMMENT '创建时间',
+    `created_by`       BIGINT UNSIGNED COMMENT '创建人',
+    `last_modified_at` DATETIME COMMENT '最后修改时间',
+    `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
+    `deleted_at`       DATETIME COMMENT '删除时间',
+    `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
+    `source`           VARCHAR(50) COMMENT '来源',
+    `source_key`       VARCHAR(255) COMMENT '来源标识',
+    `source_extra`     VARCHAR(255) COMMENT '来源信息',
     CONSTRAINT `pk_sys_department_id` PRIMARY KEY (`id`)
 );
 
 /* 岗位表 */
 CREATE TABLE `sys_position`
 (
-    `id`          BIGINT UNSIGNED COMMENT 'ID',
-    `code`        VARCHAR(150) COMMENT '编号',
-    `title`       VARCHAR(150) COMMENT '标题',
-    `description` VARCHAR(255) COMMENT '简介',
-    `root_ind`    TINYINT(1) COMMENT '是否顶层岗位' DEFAULT 0,
-    `active`      TINYINT COMMENT '启用状态',
-    `created_at`  DATETIME COMMENT '创建时间',
-    `created_by`  BIGINT UNSIGNED COMMENT '创建人',
-    `updated_at`  DATETIME COMMENT '修改时间',
-    `updated_by`  BIGINT UNSIGNED COMMENT '修改时间',
-    `deleted_at`  DATETIME COMMENT '删除时间',
-    `deleted_by`  BIGINT UNSIGNED COMMENT '删除人',
+    `id`               BIGINT UNSIGNED COMMENT 'ID',
+    `code`             VARCHAR(150) COMMENT '编号',
+    `title`            VARCHAR(150) COMMENT '标题',
+    `description`      VARCHAR(255) COMMENT '简介',
+    `root_ind`         TINYINT(1) COMMENT '是否顶层岗位',
+    `active`           TINYINT COMMENT '启用状态',
+    `created_at`       DATETIME COMMENT '创建时间',
+    `created_by`       BIGINT UNSIGNED COMMENT '创建人',
+    `last_modified_at` DATETIME COMMENT '最后修改时间',
+    `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
+    `deleted_at`       DATETIME COMMENT '删除时间',
+    `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
+    `source`           VARCHAR(50) COMMENT '来源',
+    `source_key`       VARCHAR(255) COMMENT '来源标识',
+    `source_extra`     VARCHAR(255) COMMENT '来源信息',
     CONSTRAINT `pk_sys_position_id` PRIMARY KEY (`id`)
 );
 
@@ -180,17 +186,16 @@ CREATE TABLE `sys_user`
     `approval_at`      DATETIME COMMENT '审批日期',
     `approval_by`      BIGINT UNSIGNED COMMENT '审批人',
     `status`           TINYINT(1) UNSIGNED COMMENT '状态',
-    `source`           VARCHAR(100) COMMENT '来源',
     `active`           TINYINT UNSIGNED COMMENT '启用状态',
     `created_at`       DATETIME COMMENT '创建时间',
     `created_by`       BIGINT UNSIGNED COMMENT '创建人',
-    `updated_at`       DATETIME COMMENT '修改时间',
-    `updated_by`       BIGINT UNSIGNED COMMENT '修改时间',
+    `last_modified_at` DATETIME COMMENT '最后修改时间',
+    `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
     `deleted_at`       DATETIME COMMENT '删除时间',
     `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
-    `source_id`        VARCHAR(255) COMMENT '来源标识',
-    `source_code`      VARCHAR(255) COMMENT '来源编码',
-    `source_extra`     VARCHAR(255) COMMENT '来源额外信息',
+    `source`           VARCHAR(50) COMMENT '来源',
+    `source_key`       VARCHAR(255) COMMENT '来源标识',
+    `source_extra`     VARCHAR(255) COMMENT '来源信息',
     CONSTRAINT `pk_sys_user_id` PRIMARY KEY (`id`)
 );
 
@@ -217,14 +222,14 @@ CREATE TABLE `sys_user_role_relation`
 /* 实体关联 */
 CREATE TABLE `sys_entity_relation`
 (
-    `id`         BIGINT UNSIGNED COMMENT 'ID',
-    `type`       VARCHAR(50) COMMENT '关联类型',
-    `parent_id`  BIGINT UNSIGNED COMMENT '父ID',
-    `child_id`   BIGINT UNSIGNED COMMENT '子ID',
-    `level`      INT UNSIGNED COMMENT '层级序号',
-    `parent_ind` TINYINT(1) UNSIGNED COMMENT '是否直接上级',
-    `created_at` DATETIME COMMENT '创建时间',
-    `created_by` BIGINT UNSIGNED COMMENT '创建人',
+    `id`            BIGINT UNSIGNED COMMENT 'ID',
+    `relation_type` VARCHAR(50) COMMENT '关联类型',
+    `parent_id`     BIGINT UNSIGNED COMMENT '父ID',
+    `child_id`      BIGINT UNSIGNED COMMENT '子ID',
+    `level`         INT UNSIGNED COMMENT '层级序号',
+    `parent_ind`    TINYINT(1) UNSIGNED COMMENT '是否直接上级',
+    `created_at`    DATETIME COMMENT '创建时间',
+    `created_by`    BIGINT UNSIGNED COMMENT '创建人',
     CONSTRAINT `pk_sys_entity_relation` PRIMARY KEY (`id`)
 );
 
@@ -297,8 +302,8 @@ CREATE TABLE `sys_lang_label`
     `label`            VARCHAR(255) COMMENT '多语言文本',
     `created_at`       DATETIME COMMENT '创建时间',
     `created_by`       BIGINT UNSIGNED COMMENT '创建人',
-    `updated_at`       DATETIME COMMENT '更新时间',
-    `updated_by`       BIGINT UNSIGNED COMMENT '更新人',
+    `last_modified_at` DATETIME COMMENT '最后修改时间',
+    `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
     CONSTRAINT `pk_sys_lang_label` PRIMARY KEY (`id`)
 );
 ALTER TABLE `sys_lang_label`
@@ -326,17 +331,19 @@ ALTER TABLE `sys_catalog_type`
 /* 分类 */
 CREATE TABLE `sys_catalog`
 (
-    `id`              BIGINT UNSIGNED COMMENT 'ID',
-    `catalog_type_id` BIGINT UNSIGNED COMMENT '分类类型ID',
-    `code`            VARCHAR(150) COMMENT '编号',
-    `title`           VARCHAR(255) COMMENT '标题',
-    `description`     VARCHAR(255) COMMENT '简介',
-    `root_ind`        TINYINT(1) UNSIGNED COMMENT '是否根分类' DEFAULT 0,
-    `active`          TINYINT(1) UNSIGNED COMMENT '启用状态'  DEFAULT 1,
-    `created_at`      DATETIME COMMENT '创建时间',
-    `created_by`      BIGINT UNSIGNED COMMENT '创建人',
-    `updated_at`      DATETIME COMMENT '更新时间',
-    `updated_by`      BIGINT UNSIGNED COMMENT '更新人',
+    `id`               BIGINT UNSIGNED COMMENT 'ID',
+    `catalog_type_id`  BIGINT UNSIGNED COMMENT '分类类型ID',
+    `code`             VARCHAR(150) COMMENT '编号',
+    `title`            VARCHAR(255) COMMENT '标题',
+    `description`      VARCHAR(255) COMMENT '简介',
+    `root_ind`         TINYINT(1) UNSIGNED COMMENT '是否根分类' DEFAULT 0,
+    `active`           TINYINT(1) UNSIGNED COMMENT '启用状态'  DEFAULT 1,
+    `created_at`       DATETIME COMMENT '创建时间',
+    `created_by`       BIGINT UNSIGNED COMMENT '创建人',
+    `last_modified_at` DATETIME COMMENT '最后修改时间',
+    `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
+    `deleted_at`       DATETIME COMMENT '删除时间',
+    `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
     CONSTRAINT `pk_sys_catalog_id` PRIMARY KEY (`id`)
 );
 ALTER TABLE `sys_catalog`
@@ -388,9 +395,9 @@ CREATE TABLE `sys_dictionary_item`
     `idx`                INT COMMENT '序号',
     `source`             VARCHAR(50) COMMENT '来源',
     `created_at`         DATETIME COMMENT '创建时间',
-    `created_by`         BIGINT COMMENT '创建人',
-    `updated_at`         DATETIME COMMENT '更新时间',
-    `updated_by`         BIGINT COMMENT '更新人',
+    `created_by`         BIGINT UNSIGNED COMMENT '创建人',
+    `last_modified_at`   DATETIME COMMENT '最后修改时间',
+    `last_modified_by`   BIGINT UNSIGNED COMMENT '最后修改人',
     CONSTRAINT `pk_sys_dictionary_item` PRIMARY KEY (`id`)
 );
 ALTER TABLE `sys_dictionary_item`
@@ -434,17 +441,17 @@ ALTER TABLE `sys_tag_type`
 
 CREATE TABLE `sys_tag`
 (
-    `id`          BIGINT UNSIGNED COMMENT '标签ID',
-    `tag_type_id` BIGINT UNSIGNED COMMENT '标签类型ID',
-    `title`       VARCHAR(150) COMMENT '标题',
-    `description` VARCHAR(255) COMMENT '简介',
-    `active`      TINYINT(1) COMMENT '启用状态',
-    `created_at`  DATETIME COMMENT '创建时间',
-    `created_by`  BIGINT UNSIGNED COMMENT '创建人',
-    `updated_at`  DATETIME COMMENT '更新时间',
-    `updated_by`  BIGINT UNSIGNED COMMENT '更新人',
-    `deleted_at`  DATETIME COMMENT '删除时间',
-    `deleted_by`  BIGINT UNSIGNED COMMENT '删除人',
+    `id`               BIGINT UNSIGNED COMMENT '标签ID',
+    `tag_type_id`      BIGINT UNSIGNED COMMENT '标签类型ID',
+    `title`            VARCHAR(150) COMMENT '标题',
+    `description`      VARCHAR(255) COMMENT '简介',
+    `active`           TINYINT(1) COMMENT '启用状态',
+    `created_at`       DATETIME COMMENT '创建时间',
+    `created_by`       BIGINT UNSIGNED COMMENT '创建人',
+    `last_modified_at` DATETIME COMMENT '最后修改时间',
+    `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
+    `deleted_at`       DATETIME COMMENT '删除时间',
+    `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
     CONSTRAINT `pk_sys_tag` PRIMARY KEY (`id`)
 );
 ALTER TABLE `sys_tag`

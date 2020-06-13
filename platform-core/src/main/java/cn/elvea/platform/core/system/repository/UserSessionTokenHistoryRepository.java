@@ -1,7 +1,7 @@
 package cn.elvea.platform.core.system.repository;
 
 import cn.elvea.platform.core.system.domain.UserSessionTokenHistoryEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author elvea
  */
 @Repository
-public interface UserSessionTokenHistoryRepository extends JpaRepository<UserSessionTokenHistoryEntity, Long> {
+public interface UserSessionTokenHistoryRepository extends CrudRepository<UserSessionTokenHistoryEntity, Long> {
 }

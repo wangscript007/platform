@@ -1,10 +1,8 @@
 package cn.elvea.platform.core.system.domain;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * RoleTypeEntity
@@ -16,8 +14,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_role_type")
+@Table("sys_role_type")
 public class RoleTypeEntity extends BaseEntity {
     /**
      * 编号

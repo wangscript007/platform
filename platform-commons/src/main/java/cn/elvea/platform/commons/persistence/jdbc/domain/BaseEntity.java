@@ -1,28 +1,21 @@
-package cn.elvea.platform.commons.jpa.domain;
+package cn.elvea.platform.commons.persistence.jdbc.domain;
 
 import cn.elvea.platform.commons.domain.AbstractEntity;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import org.springframework.data.annotation.Id;
 
 /**
  * BaseEntity
  *
  * @author elvea
  */
-@MappedSuperclass
 public abstract class BaseEntity extends AbstractEntity {
 
     /**
      * ID
      */
     @Id
-    @GeneratedValue(generator = "IdGenerator")
-    @GenericGenerator(name = "IdGenerator", strategy = "cn.elvea.platform.commons.jpa.id.IdGenerator")
     @JsonSerialize(using = ToStringSerializer.class)
     protected Long id;
 

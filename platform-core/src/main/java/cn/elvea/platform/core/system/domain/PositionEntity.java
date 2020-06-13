@@ -1,13 +1,17 @@
 package cn.elvea.platform.core.system.domain;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 /**
- * PositionEntity
+ * 岗位
  *
  * @author elvea
  */
@@ -16,23 +20,66 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_position")
+@Table("sys_position")
 public class PositionEntity extends BaseEntity {
-    // 岗位编号
+    /**
+     * 编号
+     */
     private String code;
-    // 岗位标题
+    /**
+     * 标题
+     */
     private String title;
-    // 岗位描述
+    /**
+     * 描述
+     */
     private String description;
-    // 实体状态
-    private String status;
-    // 实体创建时间
-    private String createdAt;
-    // 实体创建人
-    private String createdBy;
-    // 实体修改时间
-    private String updatedAt;
-    // 实体修改人
-    private String updatedBy;
+    /**
+     * 是否顶层岗位
+     */
+    private Boolean rootInd;
+    /**
+     * 启用状态
+     */
+    private Boolean active;
+    /**
+     * 创建时间
+     */
+    @CreatedDate
+    private LocalDateTime createdAt;
+    /**
+     * 创建人
+     */
+    @CreatedBy
+    private Long createdBy;
+    /**
+     * 最后修改时间
+     */
+    @LastModifiedDate
+    private LocalDateTime lastModifiedAt;
+    /**
+     * 最后修改人
+     */
+    @LastModifiedBy
+    private Long lastModifiedBy;
+    /**
+     * 删除时间
+     */
+    private LocalDateTime deletedAt;
+    /**
+     * 删除人
+     */
+    private String deletedBy;
+    /**
+     * 来源
+     */
+    private String source;
+    /**
+     * 来源标识
+     */
+    private String sourceKey;
+    /**
+     * 来源信息
+     */
+    private String sourceExtra;
 }

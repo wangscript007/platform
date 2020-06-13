@@ -1,10 +1,8 @@
 package cn.elvea.platform.core.system.domain;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * PermissionEntity
@@ -16,8 +14,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_permission")
+@Table("sys_permission")
 public class PermissionEntity extends BaseEntity {
     /**
      * 权限编号

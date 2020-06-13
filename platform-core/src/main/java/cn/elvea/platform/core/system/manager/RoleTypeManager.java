@@ -9,6 +9,10 @@ import cn.elvea.platform.core.system.domain.RoleTypeEntity;
  */
 public interface RoleTypeManager {
 
-    RoleTypeEntity findOneByCode(String code);
+    /**
+     * @param code 编号
+     * @return RoleTypeEntity
+     */
+    RoleTypeEntity findByCode(String code);
 
 }

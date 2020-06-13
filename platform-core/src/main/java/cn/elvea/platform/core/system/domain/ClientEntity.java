@@ -1,7 +1,8 @@
 package cn.elvea.platform.core.system.domain;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import lombok.*;
+import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * ClientEntity
@@ -13,6 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@Table("oauth_client_details")
 public class ClientEntity extends BaseEntity {
     private String clientId;
     private String resourceIds;

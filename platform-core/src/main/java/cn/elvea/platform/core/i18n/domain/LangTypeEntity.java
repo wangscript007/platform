@@ -1,12 +1,11 @@
 package cn.elvea.platform.core.i18n.domain;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * TagEntity
@@ -16,8 +15,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_lang_type")
+@Table("sys_lang_type")
 public class LangTypeEntity extends BaseEntity {
     /**
      * 语言

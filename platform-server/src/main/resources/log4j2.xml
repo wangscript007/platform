@@ -2,7 +2,7 @@
 <Configuration status="off">
     <Properties>
         <Property name="Pattern_Layout">%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n</Property>
-        <Property name="Triggering_Policy_Size">200MB</Property>
+        <Property name="Triggering_Policy_Size">100MB</Property>
         <Property name="IfLastModified">7d</Property>
         <Property name="Log_Path">logs</Property>
     </Properties>
@@ -16,7 +16,7 @@
         <!-- 默认日志文件 -->
         <RollingRandomAccessFile name="DefaultLogFile"
                                  fileName="${Log_Path}/log.log"
-                                 filePattern="${Log_Path}/backup/log_%d{yyyy-MM-dd}_%i.log.zip">
+                                 filePattern="${Log_Path}/backup/log_%d{yyyy-MM-dd}_%i.zip">
             <PatternLayout pattern="${Pattern_Layout}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
@@ -24,7 +24,7 @@
             </Policies>
             <DefaultRolloverStrategy>
                 <Delete basePath="${Log_Path}/backup">
-                    <IfFileName glob="log.*.log.zip"/>
+                    <IfFileName glob="log.*.zip"/>
                     <IfLastModified age="${IfLastModified}"/>
                 </Delete>
             </DefaultRolloverStrategy>
@@ -33,7 +33,7 @@
         <!-- Druid -->
         <RollingRandomAccessFile name="DruidSqlRollingFile"
                                  fileName="${Log_Path}/log_druid.log"
-                                 filePattern="${Log_Path}/backup/log_druid_%d{yyyy-MM-dd}_%i.log.zip">
+                                 filePattern="${Log_Path}/backup/log_druid_%d{yyyy-MM-dd}_%i.zip">
             <PatternLayout pattern="${Pattern_Layout}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
@@ -41,7 +41,7 @@
             </Policies>
             <DefaultRolloverStrategy>
                 <Delete basePath="${Log_Path}/backup">
-                    <IfFileName glob="log_druid.*.log.zip"/>
+                    <IfFileName glob="log_druid_.*.zip"/>
                     <IfLastModified age="${IfLastModified}"/>
                 </Delete>
             </DefaultRolloverStrategy>
@@ -49,9 +49,11 @@
     </Appenders>
 
     <Loggers>
+        <!-- FrameWorks -->
         <Logger name="org.hibernate" level="WARN"/>
         <Logger name="org.springframework" level="WARN"/>
-        <Logger name="org.springframework.security" level="DEBUG"/>
+        <Logger name="org.springframework.security" level="WARN"/>
+        <Logger name="org.springframework.jdbc.core" level="TRACE"/>
 
         <!-- Druid -->
         <Logger name="druid.sql.Statement" level="DEBUG" additivity="false">
@@ -61,7 +63,7 @@
             <AppenderRef ref="DruidSqlRollingFile"/>
         </Logger>
 
-        <!-- 后台线程 -->
+        <!-- Platform -->
         <Logger name="cn.elvea" level="DEBUG" additivity="false">
             <AppenderRef ref="DefaultLogFile"/>
             <AppenderRef ref="Console"/>

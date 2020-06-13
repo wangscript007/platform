@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author elvea
  */
 @Repository
-public interface RolePermissionRelationRepository
-        extends CrudRepository<RolePermissionRelationEntity, Long> {
+public interface RolePermissionRelationRepository extends CrudRepository<RolePermissionRelationEntity, Long> {
 }

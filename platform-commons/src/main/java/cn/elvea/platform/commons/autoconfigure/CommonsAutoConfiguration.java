@@ -3,7 +3,7 @@ package cn.elvea.platform.commons.autoconfigure;
 import cn.elvea.platform.commons.Context;
 import cn.elvea.platform.commons.autoconfigure.properties.CommonsProperties;
 import cn.elvea.platform.commons.constants.SystemConstants;
-import cn.elvea.platform.commons.jpa.utils.JpaUtils;
+import cn.elvea.platform.commons.persistence.jdbc.callback.IdEntityCallback;
 import cn.elvea.platform.commons.sequence.IdWorker;
 import cn.elvea.platform.commons.utils.RedisLockUtils;
 import cn.elvea.platform.commons.utils.SpringContextUtils;
@@ -38,8 +38,14 @@ public class CommonsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public Context context() {
-        return new Context();
+    public Context context(IdWorker idWorker) {
+        return new Context(idWorker);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public IdEntityCallback idEntityCallback() {
+        return new IdEntityCallback();
     }
 
     @Bean
@@ -88,12 +94,6 @@ public class CommonsAutoConfiguration {
         }
         // 手工设置
         return new IdWorker(this.commonsProperties.getIdWorkerWorkerId(), this.commonsProperties.getIdWorkerDatacenterId());
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public JpaUtils jpaUtils() {
-        return new JpaUtils();
     }
 
 }

@@ -1,11 +1,16 @@
 package cn.elvea.platform.core.tag.domain;
 
-import cn.elvea.platform.commons.jpa.domain.BaseEntity;
+import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
+
 
 /**
  * TagEntity
@@ -14,8 +19,7 @@ import javax.persistence.Table;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_tag")
+@Table("sys_tag")
 public class TagEntity extends BaseEntity {
     /**
      * 标签类型ID
@@ -36,19 +40,23 @@ public class TagEntity extends BaseEntity {
     /**
      * 创建时间
      */
-    private String createdAt;
+    @CreatedDate
+    private LocalDateTime createdAt;
     /**
      * 创建人
      */
-    private String createdBy;
+    @CreatedBy
+    private Long createdBy;
     /**
-     * 修改时间
+     * 最后修改时间
      */
-    private String updatedAt;
+    @LastModifiedDate
+    private LocalDateTime lastModifiedAt;
     /**
-     * 修改人
+     * 最后修改人
      */
-    private String updatedBy;
+    @LastModifiedBy
+    private Long lastModifiedBy;
     /**
      * 删除时间
      */

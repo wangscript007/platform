@@ -1,12 +1,12 @@
 package cn.elvea.platform.core.tag.repository;
 
 import cn.elvea.platform.core.tag.domain.TagTypeEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  * TagTypeRepository
  *
  * @author elvea
  */
-public interface TagTypeRepository extends JpaRepository<TagTypeEntity, Long> {
+public interface TagTypeRepository extends CrudRepository<TagTypeEntity, Long> {
 }
