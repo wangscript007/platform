@@ -14,6 +14,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DepartmentServiceImpl
-        extends AbstractService<Long, DepartmentEntity, DepartmentRepository>
+        extends AbstractService<DepartmentEntity, Long, DepartmentRepository>
         implements DepartmentService {
 }

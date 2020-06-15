@@ -14,6 +14,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PermissionServiceImpl
-        extends AbstractService<Long, PermissionEntity, PermissionRepository>
+        extends AbstractService<PermissionEntity, Long, PermissionRepository>
         implements PermissionService {
 }

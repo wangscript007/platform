@@ -14,6 +14,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EntityRelationServiceImpl
-        extends AbstractService<Long, EntityRelationEntity, EntityRelationRepository>
+        extends AbstractService<EntityRelationEntity, Long, EntityRelationRepository>
         implements EntityRelationService {
 }

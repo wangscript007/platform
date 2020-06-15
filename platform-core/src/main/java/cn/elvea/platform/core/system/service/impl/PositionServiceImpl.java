@@ -14,6 +14,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PositionServiceImpl
-        extends AbstractService<Long, PositionEntity, PositionRepository>
+        extends AbstractService<PositionEntity, Long, PositionRepository>
         implements PositionService {
 }

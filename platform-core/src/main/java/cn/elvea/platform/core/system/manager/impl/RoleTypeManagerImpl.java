@@ -16,7 +16,8 @@ import static cn.elvea.platform.core.system.SystemConstants.CACHE_ROLE_TYPE;
  * @see RoleTypeManager
  */
 @Service
-public class RoleTypeManagerImpl extends AbstractService<Long, RoleTypeEntity, RoleTypeRepository>
+public class RoleTypeManagerImpl
+        extends AbstractService<RoleTypeEntity, Long, RoleTypeRepository>
         implements RoleTypeManager {
 
     /**

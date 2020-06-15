@@ -1,7 +1,6 @@
 package cn.elvea.platform.config;
 
 import cn.elvea.platform.commons.constants.SystemConstants;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
  * @author elvea
  */
 @Configuration
-@EnableCaching
 public class Config {
 
     /**

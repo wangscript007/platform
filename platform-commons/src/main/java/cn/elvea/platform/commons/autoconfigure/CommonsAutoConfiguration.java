@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.Assert;
 
 /**
  * CommonsAutoConfiguration
@@ -32,28 +33,53 @@ public class CommonsAutoConfiguration {
     private final RedisProperties redisProperties;
 
     public CommonsAutoConfiguration(CommonsProperties commonsProperties, RedisProperties redisProperties) {
+        Assert.notNull(commonsProperties, "CommonsProperties must not be null!");
+        Assert.notNull(redisProperties, "RedisProperties must not be null!");
+
         this.commonsProperties = commonsProperties;
         this.redisProperties = redisProperties;
     }
 
+    /**
+     * Context
+     *
+     * @return {@link Context}
+     */
     @Bean
     @ConditionalOnMissingBean
     public Context context(IdWorker idWorker) {
+        Assert.notNull(idWorker, "IdWorker must not be null!");
         return new Context(idWorker);
     }
 
+    /**
+     * IdEntityCallback
+     *
+     * @return {@link IdEntityCallback}
+     */
     @Bean
     @ConditionalOnMissingBean
-    public IdEntityCallback idEntityCallback() {
-        return new IdEntityCallback();
+    public IdEntityCallback idEntityCallback(Context context) {
+        Assert.notNull(context, "Context must not be null!");
+        return new IdEntityCallback(context);
     }
 
+    /**
+     * SpringContextUtils
+     *
+     * @return {@link SpringContextUtils}
+     */
     @Bean
     @ConditionalOnMissingBean
     public SpringContextUtils springContextUtils() {
         return new SpringContextUtils();
     }
 
+    /**
+     * RedissonClient
+     *
+     * @return {@link RedissonClient}
+     */
     @Bean
     @ConditionalOnMissingBean
     public RedissonClient redissonClient() {
@@ -79,20 +105,28 @@ public class CommonsAutoConfiguration {
         }
     }
 
+    /**
+     * RedisLockUtils
+     *
+     * @return {@link RedisLockUtils}
+     */
     @Bean
     @ConditionalOnMissingBean
     public RedisLockUtils redisLockUtils() {
         return new RedisLockUtils(redissonClient());
     }
 
+    /**
+     * IdWorker
+     *
+     * @return {@link IdWorker}
+     */
     @Bean
     @ConditionalOnMissingBean
     public IdWorker idWorker() {
         if (SystemConstants.ID_WORKER_TYPE_AUTO.equalsIgnoreCase(this.commonsProperties.getIdWorkerType())) {
-            // 基于Redis自动生成，当前未实现
             return new IdWorker();
         }
-        // 手工设置
         return new IdWorker(this.commonsProperties.getIdWorkerWorkerId(), this.commonsProperties.getIdWorkerDatacenterId());
     }
 

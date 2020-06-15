@@ -3,8 +3,7 @@ package cn.elvea.platform.commons.persistence.jdbc.service;
 import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.Optional;
  * @param <R> 仓库类型
  * @see BaseService
  */
-public abstract class AbstractService<K extends Serializable, T extends BaseEntity, R extends CrudRepository<T, K>>
+public abstract class AbstractService<T extends BaseEntity, K extends Serializable, R extends PagingAndSortingRepository<T, K>>
         implements BaseService<T, K> {
 
     @Autowired
@@ -29,7 +28,7 @@ public abstract class AbstractService<K extends Serializable, T extends BaseEnti
      */
     @Override
     public T findById(K id) {
-        return this.repository.findById(id).orElse(null);
+        return this.findOneById(id).orElse(null);
     }
 
     /**
@@ -38,14 +37,6 @@ public abstract class AbstractService<K extends Serializable, T extends BaseEnti
     @Override
     public Optional<T> findOneById(K id) {
         return this.repository.findById(id);
-    }
-
-    /**
-     * @see BaseService#findOneByExample(Example)
-     */
-    @Override
-    public Optional<T> findOneByExample(Example<T> example) {
-        return null;
     }
 
     /**

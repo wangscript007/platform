@@ -1,7 +1,6 @@
 package cn.elvea.platform.commons.persistence.jdbc.service;
 
 import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
-import org.springframework.data.domain.Example;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,6 +14,7 @@ import java.util.Optional;
  * @author elvea
  */
 public interface BaseService<T extends BaseEntity, K extends Serializable> {
+
     /**
      * 根据ID查询唯一记录
      *
@@ -30,14 +30,6 @@ public interface BaseService<T extends BaseEntity, K extends Serializable> {
      * @return T
      */
     Optional<T> findOneById(K id);
-
-    /**
-     * 根据ID查询唯一记录
-     *
-     * @param example ID
-     * @return T
-     */
-    Optional<T> findOneByExample(Example<T> example);
 
     /**
      * 查询多条记录

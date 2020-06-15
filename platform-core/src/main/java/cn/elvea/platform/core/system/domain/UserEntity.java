@@ -32,6 +32,10 @@ public class UserEntity extends BaseEntity {
      */
     private String email;
     /**
+     * 手机国家区号
+     */
+    private String mobileCountryCode;
+    /**
      * 手机
      */
     private String mobile;

@@ -3,9 +3,9 @@ package cn.elvea.platform.commons.persistence.jdbc.callback;
 import cn.elvea.platform.commons.Context;
 import cn.elvea.platform.commons.domain.IdEntity;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.conversion.MutableAggregateChange;
 import org.springframework.data.relational.core.mapping.event.BeforeSaveCallback;
+import org.springframework.util.Assert;
 
 /**
  * IdEntityCallback
@@ -14,8 +14,14 @@ import org.springframework.data.relational.core.mapping.event.BeforeSaveCallback
  */
 public class IdEntityCallback implements BeforeSaveCallback<IdEntity> {
 
-    @Autowired
-    private Context context;
+    private final Context context;
+
+    public IdEntityCallback(Context context) {
+
+        Assert.notNull(context, "Context must not be null!");
+
+        this.context = context;
+    }
 
     /**
      * @see BeforeSaveCallback#onBeforeSave(Object, MutableAggregateChange)
@@ -23,9 +29,11 @@ public class IdEntityCallback implements BeforeSaveCallback<IdEntity> {
     @NotNull
     @Override
     public IdEntity onBeforeSave(IdEntity entity, @NotNull MutableAggregateChange<IdEntity> aggregateChange) {
+
         if (entity.getId() == null) {
             entity.setId(this.context.generateNextId());
         }
+
         return entity;
     }
 

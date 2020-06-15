@@ -27,4 +27,16 @@ public class UserRepositoryTests extends ApplicationBaseWebTests {
         Assertions.assertNotNull(userEntity);
     }
 
+    @Test
+    public void testFindByEmail() {
+        UserEntity userEntity = this.userRepository.findByEmail("platform@host.com");
+        Assertions.assertNotNull(userEntity);
+    }
+
+    @Test
+    public void testFindByMobile() {
+        UserEntity userEntity = this.userRepository.findByMobileCountryCodeAndMobile("86", "13800138000");
+        Assertions.assertNotNull(userEntity);
+    }
+
 }

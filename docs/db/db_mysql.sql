@@ -166,38 +166,44 @@ CREATE TABLE `sys_position`
 /* 用户表 */
 CREATE TABLE `sys_user`
 (
-    `id`               BIGINT UNSIGNED COMMENT 'ID',
-    `username`         VARCHAR(150) COMMENT '用户名',
-    `email`            VARCHAR(150) COMMENT '电子邮箱',
-    `mobile`           VARCHAR(150) COMMENT '手机号码',
-    `password`         VARCHAR(255) COMMENT '密码',
-    `nickname`         VARCHAR(255) COMMENT '昵称',
-    `fullname`         VARCHAR(255) COMMENT '全名',
-    `english_name`     VARCHAR(255) COMMENT '英文名',
-    `id_card`          VARCHAR(50) COMMENT '身份证',
-    `sex`              VARCHAR(10) COMMENT '性别',
-    `birthday`         DATETIME COMMENT '生日',
-    `description`      VARCHAR(255) COMMENT '备注',
-    `start_date`       DATETIME COMMENT '有效开始日期',
-    `end_date`         DATETIME COMMENT '有效结束日期',
-    `entry_date`       DATETIME COMMENT '入职日期',
-    `resignation_date` DATETIME COMMENT '离职日期',
-    `register_at`      DATETIME COMMENT '注册时间',
-    `approval_at`      DATETIME COMMENT '审批日期',
-    `approval_by`      BIGINT UNSIGNED COMMENT '审批人',
-    `status`           TINYINT(1) UNSIGNED COMMENT '状态',
-    `active`           TINYINT UNSIGNED COMMENT '启用状态',
-    `created_at`       DATETIME COMMENT '创建时间',
-    `created_by`       BIGINT UNSIGNED COMMENT '创建人',
-    `last_modified_at` DATETIME COMMENT '最后修改时间',
-    `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
-    `deleted_at`       DATETIME COMMENT '删除时间',
-    `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
-    `source`           VARCHAR(50) COMMENT '来源',
-    `source_key`       VARCHAR(255) COMMENT '来源标识',
-    `source_extra`     VARCHAR(255) COMMENT '来源信息',
-    CONSTRAINT `pk_sys_user_id` PRIMARY KEY (`id`)
+    `id`                  BIGINT UNSIGNED COMMENT 'ID',
+    `username`            VARCHAR(150) COMMENT '用户名',
+    `email`               VARCHAR(150) COMMENT '电子邮箱',
+    `mobile_country_code` VARCHAR(10) COMMENT '手机国家区号',
+    `mobile`              VARCHAR(50) COMMENT '手机号码',
+    `password`            VARCHAR(255) COMMENT '密码',
+    `nickname`            VARCHAR(255) COMMENT '昵称',
+    `fullname`            VARCHAR(255) COMMENT '全名',
+    `english_name`        VARCHAR(255) COMMENT '英文名',
+    `id_card`             VARCHAR(50) COMMENT '身份证',
+    `sex`                 VARCHAR(10) COMMENT '性别',
+    `birthday`            DATETIME COMMENT '生日',
+    `description`         VARCHAR(255) COMMENT '备注',
+    `start_date`          DATETIME COMMENT '有效开始日期',
+    `end_date`            DATETIME COMMENT '有效结束日期',
+    `entry_date`          DATETIME COMMENT '入职日期',
+    `resignation_date`    DATETIME COMMENT '离职日期',
+    `register_at`         DATETIME COMMENT '注册时间',
+    `approval_at`         DATETIME COMMENT '审批日期',
+    `approval_by`         BIGINT UNSIGNED COMMENT '审批人',
+    `status`              TINYINT(1) UNSIGNED COMMENT '状态',
+    `active`              TINYINT UNSIGNED COMMENT '启用状态',
+    `created_at`          DATETIME COMMENT '创建时间',
+    `created_by`          BIGINT UNSIGNED COMMENT '创建人',
+    `last_modified_at`    DATETIME COMMENT '最后修改时间',
+    `last_modified_by`    BIGINT UNSIGNED COMMENT '最后修改人',
+    `deleted_at`          DATETIME COMMENT '删除时间',
+    `deleted_by`          BIGINT UNSIGNED COMMENT '删除人',
+    `source`              VARCHAR(50) COMMENT '来源',
+    `source_key`          VARCHAR(255) COMMENT '来源标识',
+    `source_extra`        VARCHAR(255) COMMENT '来源信息',
+    CONSTRAINT `pk_sys_user` PRIMARY KEY (`id`)
 );
+
+CREATE INDEX `ix_sys_user_username` ON `sys_user` (`username`);
+CREATE INDEX `ix_sys_user_email` ON `sys_user` (`email`);
+CREATE INDEX `ix_sys_user_mobile` ON `sys_user` (`mobile_country_code`, `mobile`);
+CREATE INDEX `ix_sys_user_active` ON `sys_user` (`active`);
 
 /* 角色-权限关联表 */
 CREATE TABLE `sys_role_permission_relation`
@@ -484,17 +490,18 @@ CREATE INDEX `ix_sys_tag_relation` ON `sys_tag_relation` (`tag_type_id`, `tag_id
 insert into sys_role_type (id, code, label, description, active)
 values (1, 'SYSTEM_ADMINISTRTOR', 'label_role_system_administrtor', 'System Administrator', 1),
        (2, 'ADMINISTRTOR', 'label_role_administrtor', 'Administrator', 1),
-       (3, 'USER', 'label_role_user', 'General User', 1),
+       (3, 'USER', 'label_role_user', 'User', 1),
        (4, 'ANONYMOUS_USER', 'label_role_anonymous_user', 'Anonymous User', 1);
 
-insert into sys_role (id, code, title, label, description, active, created_at)
-values (1, 'SADMIN', 'System Administrator', 'label_role_system_administrtor', 'System Administrator', 1, now()),
-       (2, 'ADMINISTRTOR', 'Administrator', 'label_role_administrtor', 'Administrator', 1, now()),
-       (3, 'USER', 'General User', 'label_role_user', 'General User', 1, now()),
-       (4, 'ANONYMOUS_USER', 'Anonymous User', 'label_role_anonymous_user', 'Anonymous User', 1, now());
+insert into sys_role (id, code, title, label, active, created_at)
+values (1, 'SYSTEM_ADMINISTRTOR', 'System Administrator', 'label_role_system_administrtor', 1, now()),
+       (2, 'ADMINISTRTOR', 'Administrator', 'label_role_administrtor', 1, now()),
+       (3, 'USER', 'User', 'label_role_user', 1, now()),
+       (4, 'ANONYMOUS_USER', 'Anonymous User', 'label_role_anonymous_user', 1, now());
 
-insert into sys_user (id, username, nickname, active, created_at, password)
-values (1, 'admin', 'Administrator', 1, now(), '$2a$10$MLkjYEPJkO6KNrfUUBld6eWVr1G09nugg5UpIQVUtsQ.3Z9U2lOSK');
+insert into sys_user (id, username, email, mobile_country_code, mobile, nickname, active, created_at, password)
+values (1, 'admin', 'platform@host.com', '86', '13800138000', 'Administrator', 1, now(),
+        '$2a$10$MLkjYEPJkO6KNrfUUBld6eWVr1G09nugg5UpIQVUtsQ.3Z9U2lOSK');
 
 /* 语言类型 */
 insert into sys_lang_type (id, locale, label, description, default_ind, active)

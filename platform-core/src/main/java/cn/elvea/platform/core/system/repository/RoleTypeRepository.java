@@ -1,7 +1,7 @@
 package cn.elvea.platform.core.system.repository;
 
+import cn.elvea.platform.commons.persistence.jdbc.repository.JdbcRepository;
 import cn.elvea.platform.core.system.domain.RoleTypeEntity;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author elvea
  */
 @Repository
-public interface RoleTypeRepository extends CrudRepository<RoleTypeEntity, Long> {
+public interface RoleTypeRepository extends JdbcRepository<RoleTypeEntity, Long> {
 }

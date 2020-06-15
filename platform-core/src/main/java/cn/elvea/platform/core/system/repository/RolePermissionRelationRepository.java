@@ -1,7 +1,7 @@
 package cn.elvea.platform.core.system.repository;
 
+import cn.elvea.platform.commons.persistence.jdbc.repository.JdbcRepository;
 import cn.elvea.platform.core.system.domain.RolePermissionRelationEntity;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author elvea
  */
 @Repository
-public interface RolePermissionRelationRepository extends CrudRepository<RolePermissionRelationEntity, Long> {
+public interface RolePermissionRelationRepository extends JdbcRepository<RolePermissionRelationEntity, Long> {
 }

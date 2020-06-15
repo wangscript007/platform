@@ -13,6 +13,10 @@ public interface SystemConstants {
 
     String CACHE_ROLE_TYPE = "CACHE_ROLE_TYPE";
 
+    String CACHE_ROLE = "CACHE_ROLE";
+
+    String CACHE_USER = "CACHE_USER";
+
     // ========================================================================
     // 实体关联
     // ========================================================================

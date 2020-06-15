@@ -14,6 +14,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserSessionServiceImpl
-        extends AbstractService<Long, UserSessionEntity, UserSessionRepository>
+        extends AbstractService<UserSessionEntity, Long, UserSessionRepository>
         implements UserSessionService {
 }

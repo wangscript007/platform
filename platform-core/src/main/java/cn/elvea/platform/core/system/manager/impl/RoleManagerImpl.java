@@ -1,19 +1,19 @@
-package cn.elvea.platform.core.system.service.impl;
+package cn.elvea.platform.core.system.manager.impl;
 
 import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
 import cn.elvea.platform.core.system.domain.RoleEntity;
+import cn.elvea.platform.core.system.manager.RoleManager;
 import cn.elvea.platform.core.system.repository.RoleRepository;
-import cn.elvea.platform.core.system.service.RoleService;
 import org.springframework.stereotype.Service;
 
 /**
- * RoleService
+ * RoleManager
  *
  * @author elvea
- * @see RoleService
+ * @see RoleManager
  */
 @Service
-public class RoleServiceImpl
+public class RoleManagerImpl
         extends AbstractService<RoleEntity, Long, RoleRepository>
-        implements RoleService {
+        implements RoleManager {
 }
