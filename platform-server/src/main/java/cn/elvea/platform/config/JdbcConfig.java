@@ -5,7 +5,6 @@ import cn.elvea.platform.commons.persistence.jdbc.auditor.UserAuditorAware;
 import cn.elvea.platform.commons.persistence.jdbc.converter.BooleanToIntegerConverter;
 import cn.elvea.platform.commons.persistence.jdbc.converter.IntegerToBooleanConverter;
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -28,7 +27,6 @@ import java.util.Arrays;
 @Configuration
 @EnableJdbcAuditing
 @EnableJdbcRepositories("cn.elvea.platform.core.**.repository")
-@MapperScan("cn.elvea.platform.core.**.mapper")
 public class JdbcConfig extends AbstractJdbcConfiguration {
 
     @Bean

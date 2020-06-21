@@ -1,4 +1,4 @@
-package cn.elvea.platform.commons.persistence.mybatis;
+package cn.elvea.platform.commons.persistence.mybatis.strategy;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jdbc.mybatis.NamespaceStrategy;

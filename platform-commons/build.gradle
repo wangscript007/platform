@@ -31,6 +31,7 @@ dependencies {
     api("com.google.guava:guava:${guavaVersion}")
     api("org.redisson:redisson:${redissonVersion}")
     api("com.nimbusds:nimbus-jose-jwt:${nimbusJoseJwtVersion}")
+    api("com.github.jsqlparser:jsqlparser:${jSqlParserVersion}")
     api("org.jetbrains:annotations:${jetbrainsAnnotationsVersion}")
     api("io.swagger.core.v3:swagger-annotations:${swaggerAnnotationsVersion}")
     implementation("org.apache.poi:poi:${poiVersion}")
