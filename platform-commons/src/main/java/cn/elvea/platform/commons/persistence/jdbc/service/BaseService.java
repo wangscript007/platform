@@ -79,14 +79,7 @@ public interface BaseService<T extends BaseEntity, K extends Serializable> {
      *
      * @param entity T
      */
-    void save(T entity);
-
-    /**
-     * 保存实体
-     *
-     * @param entity T
-     */
-    void saveAndFlush(T entity);
+    T save(T entity);
 
     /**
      * 批量保存实体

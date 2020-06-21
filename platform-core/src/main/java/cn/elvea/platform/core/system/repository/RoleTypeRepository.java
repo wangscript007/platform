@@ -11,4 +11,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RoleTypeRepository extends JdbcRepository<RoleTypeEntity, Long> {
+
+    /**
+     * 根据编号查找角色类型
+     */
+    RoleTypeEntity findByCode(String code);
+
 }

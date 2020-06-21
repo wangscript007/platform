@@ -16,8 +16,9 @@ dependencies {
     // spring doc
     implementation("org.springdoc:springdoc-openapi-ui:${springDocVersion}")
     implementation("org.springdoc:springdoc-openapi-security:${springDocVersion}")
-    // shardingsphere & datasource
+    // database
     implementation("com.alibaba:druid:${druidVersion}")
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisSpringBootVersion}")
     implementation("org.apache.shardingsphere:sharding-jdbc-spring-boot-starter:${shardingSphereVersion}")
     // modules
     api project(':platform-commons')

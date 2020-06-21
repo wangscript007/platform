@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.elvea.platform.core.system.mapper.EntityRelationMapper">
+
+    <select id="getParents" resultType="cn.elvea.platform.core.system.domain.EntityRelationEntity">
+        select * from sys_entity_relation r where r.relation_type = :relationType and r.entity_id = :entityId
+    </select>
+
+    <select id="getDirectParents" resultType="cn.elvea.platform.core.system.domain.EntityRelationEntity">
+        select * from sys_entity_relation r where r.relation_type = :relationType and r.entity_id = :entityId and
+        r.parent_ind = 1
+    </select>
+
+    <select id="getChildren" resultType="cn.elvea.platform.core.system.domain.EntityRelationEntity">
+        select * from sys_entity_relation r where r.relation_type = :relationType and r.entity_id = :entityId
+    </select>
+
+    <select id="getDirectChildren" resultType="cn.elvea.platform.core.system.domain.EntityRelationEntity">
+        select * from sys_entity_relation r where r.relation_type = :relationType and r.entity_id = :entityId and
+        r.parent_ind = 1
+    </select>
+
+    <delete id="deleteAsAncestor">
+        delete from sys_entity_relation r where r.relation_type = :relationType and r.ancestor_id = :ancestorId
+    </delete>
+
+    <delete id="deleteAsChild">
+        delete from sys_entity_relation r where r.relation_type = :relationType and r.entity_id = :entityId
+    </delete>
+
+</mapper>

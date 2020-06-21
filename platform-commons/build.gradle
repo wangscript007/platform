@@ -3,12 +3,16 @@ dependencies {
     api("org.springframework:spring-context-support")
     api("org.springframework:spring-jdbc")
     api("org.springframework:spring-webmvc")
+    api("org.springframework.security:spring-security-web")
     api("org.springframework.data:spring-data-jdbc")
     api("org.springframework.data:spring-data-redis")
     api("org.springframework.data:spring-data-elasticsearch")
     api("org.springframework.data:spring-data-commons")
     api("org.springframework.boot:spring-boot-autoconfigure")
     api("org.springframework.boot:spring-boot-configuration-processor")
+    // mybatis & mybatis-plus
+    api("org.mybatis:mybatis:${mybatisVersion}")
+    api("org.mybatis:mybatis-spring:${mybatisSpringVersion}")
     // commons
     api("org.apache.commons:commons-text:${commonsTextVersion}")
     api("org.apache.commons:commons-lang3:${commonsLangVersion}")
@@ -35,14 +39,15 @@ dependencies {
     implementation("cn.afterturn:easypoi-base:${easyPoiVersion}")
     implementation("com.alibaba:easyexcel:${easyExcelVersion}")
     implementation("org.apache.pdfbox:pdfbox:${pdfboxVersion}")
-    // wxJavaVersion
-    implementation("com.github.binarywang:weixin-java-mp:${weixinSdkVersion}")
-    implementation("com.github.binarywang:weixin-java-cp:${weixinSdkVersion}")
-    implementation("com.github.binarywang:weixin-java-miniapp:${weixinSdkVersion}")
-    // cloud
+    // sdk
     implementation("com.aliyun:aliyun-java-sdk-core:${aliyunJavaSdkVersion}")
     implementation("com.aliyun.oss:aliyun-sdk-oss:${aliyunSdkOssVersion}")
     implementation("com.qcloud:cos_api:${qCloudCosApiVersion}")
+    implementation("com.qiniu:qiniu-java-sdk:${qiniuJavaSdkVersion}")
+    implementation("com.alipay.sdk:alipay-sdk-java:${alipayJavaSdkVersion}")
+    implementation("com.github.binarywang:weixin-java-mp:${weixinSdkVersion}")
+    implementation("com.github.binarywang:weixin-java-cp:${weixinSdkVersion}")
+    implementation("com.github.binarywang:weixin-java-miniapp:${weixinSdkVersion}")
     // compileOnly
     compileOnly("javax.servlet:javax.servlet-api")
     compileOnly("javax.transaction:javax.transaction-api")

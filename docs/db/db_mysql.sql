@@ -228,14 +228,15 @@ CREATE TABLE `sys_user_role_relation`
 /* 实体关联 */
 CREATE TABLE `sys_entity_relation`
 (
-    `id`            BIGINT UNSIGNED COMMENT 'ID',
-    `relation_type` VARCHAR(50) COMMENT '关联类型',
-    `parent_id`     BIGINT UNSIGNED COMMENT '父ID',
-    `child_id`      BIGINT UNSIGNED COMMENT '子ID',
-    `level`         INT UNSIGNED COMMENT '层级序号',
-    `parent_ind`    TINYINT(1) UNSIGNED COMMENT '是否直接上级',
-    `created_at`    DATETIME COMMENT '创建时间',
-    `created_by`    BIGINT UNSIGNED COMMENT '创建人',
+    `id`             BIGINT UNSIGNED COMMENT 'ID',
+    `relation_type`  VARCHAR(50) COMMENT '关联类型',
+    `ancestor_id`    BIGINT UNSIGNED COMMENT '祖先ID',
+    `entity_id`      BIGINT UNSIGNED COMMENT '实体ID',
+    `relation_index` INT UNSIGNED COMMENT '层级序号',
+    `parent_ind`     TINYINT(1) UNSIGNED COMMENT '是否直接上级',
+    `full_path`      VARCHAR(2000) COMMENT '层级路径',
+    `created_at`     DATETIME COMMENT '创建时间',
+    `created_by`     BIGINT UNSIGNED COMMENT '创建人',
     CONSTRAINT `pk_sys_entity_relation` PRIMARY KEY (`id`)
 );
 
@@ -508,3 +509,11 @@ insert into sys_lang_type (id, locale, label, description, default_ind, active)
 values (1, 'zh_CN', 'label_lang_type_zh_cn', '简体中文', 1, 1),
        (2, 'zh_CN', 'label_lang_type_zh_tw', '繁体中文', 2, 1),
        (3, 'zh_CN', 'label_lang_type_en_us', '美式英语', 3, 1);
+
+/* 部门 */
+insert into sys_department (id, code, title, description, active)
+values (1, 'ROOT', 'Root', 'Root', 1);
+
+/* 岗位 */
+insert into sys_position (id, code, title, description, active)
+values (1, 'ROOT', 'Root', 'Root', 1);

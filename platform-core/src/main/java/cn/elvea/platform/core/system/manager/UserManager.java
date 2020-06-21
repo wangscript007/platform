@@ -35,4 +35,9 @@ public interface UserManager extends BaseService<UserEntity, Long> {
      */
     UserEntity findByMobile(String mobileCountryCode, String mobile);
 
+    /**
+     * 清空缓存
+     */
+    void clearCache();
+
 }

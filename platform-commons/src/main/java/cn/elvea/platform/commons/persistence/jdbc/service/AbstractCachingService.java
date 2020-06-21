@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * AbstractService
+ * AbstractCachingService
  *
  * @param <K> 主键类型
  * @param <T> 实体类型
  * @param <R> 仓库类型
  * @see BaseService
  */
-public abstract class AbstractService<T extends BaseEntity, K extends Serializable, R extends PagingAndSortingRepository<T, K>>
+public abstract class AbstractCachingService<T extends BaseEntity, K extends Serializable, R extends PagingAndSortingRepository<T, K>>
         implements BaseService<T, K> {
 
     @Autowired

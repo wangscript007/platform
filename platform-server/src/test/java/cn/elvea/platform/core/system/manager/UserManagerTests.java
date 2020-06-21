@@ -35,5 +35,16 @@ public class UserManagerTests extends ApplicationBaseTests {
 
     }
 
-}
+    @Test
+    public void testCrud() {
+        UserEntity entity = new UserEntity();
+        entity.setUsername("test");
+        entity.setEmail("test@host.com");
+        entity.setMobileCountryCode("86");
+        entity.setMobile("13900139000");
+        entity.setActive(true);
+        entity.setNickname("Test User");
+        this.userManager.save(entity);
+    }
 
+}

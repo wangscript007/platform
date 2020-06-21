@@ -51,6 +51,7 @@
     <Loggers>
         <!-- FrameWorks -->
         <Logger name="org.hibernate" level="WARN"/>
+        <Logger name="org.apache.ibatis" level="TRACE"/>
         <Logger name="org.springframework" level="WARN"/>
         <Logger name="org.springframework.security" level="WARN"/>
         <Logger name="org.springframework.jdbc.core" level="TRACE"/>
