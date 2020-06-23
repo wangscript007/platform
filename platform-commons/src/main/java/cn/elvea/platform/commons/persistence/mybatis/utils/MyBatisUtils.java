@@ -2,6 +2,7 @@ package cn.elvea.platform.commons.persistence.mybatis.utils;
 
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Proxy;
@@ -15,6 +16,21 @@ import java.util.Optional;
  */
 @SuppressWarnings("ALL")
 public abstract class MyBatisUtils {
+
+    /**
+     * 获取真实代理对象
+     *
+     * @param target Object
+     * @param <T>    T
+     * @return T
+     */
+    public static Object getTarget(Object target) {
+        if (Proxy.isProxyClass(target.getClass())) {
+            MetaObject metaObject = SystemMetaObject.forObject(target);
+            return getTarget(metaObject.getValue("h.target"));
+        }
+        return target;
+    }
 
     /**
      * 获取真实代理对象
@@ -44,10 +60,36 @@ public abstract class MyBatisUtils {
                 for (Map.Entry entry : parameterMap.entrySet()) {
                     if (entry.getValue() != null && entry.getValue() instanceof Pageable) {
                         return Optional.of((Pageable) entry.getValue());
+                    } else if (entry.getValue() != null && entry.getValue() instanceof Page) {
+                        return Optional.of(((Page) entry.getValue()).getPageable());
                     }
                 }
             } else if (parameterObject instanceof Pageable) {
                 return Optional.of((Pageable) parameterObject);
+            } else if (parameterObject instanceof Page) {
+                return Optional.of(((Page) parameterObject).getPageable());
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * 查找分页对象参数
+     *
+     * @param parameterObject {@link Object}
+     * @return Optional<Pageable>
+     */
+    public static Optional<Page> findPage(Object parameterObject) {
+        if (parameterObject != null) {
+            if (parameterObject instanceof Map) {
+                Map<?, ?> parameterMap = (Map<?, ?>) parameterObject;
+                for (Map.Entry entry : parameterMap.entrySet()) {
+                    if (entry.getValue() != null && entry.getValue() instanceof Page) {
+                        return Optional.of((Page) entry.getValue());
+                    }
+                }
+            } else if (parameterObject instanceof Page) {
+                return Optional.of(((Page) parameterObject));
             }
         }
         return Optional.empty();

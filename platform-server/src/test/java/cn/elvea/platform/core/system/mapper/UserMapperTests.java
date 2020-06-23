@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
+
 /**
  * UserMapperTests
  *
@@ -17,6 +19,7 @@ public class UserMapperTests extends ApplicationBaseTests {
 
     @Test
     public void test() {
+        Date now = this.userMapper.search();
         Assertions.assertNotNull(this.userMapper);
     }
 

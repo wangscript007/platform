@@ -11,18 +11,26 @@ import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.*;
-import org.apache.ibatis.executor.statement.StatementHandler;
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
-import org.springframework.data.domain.*;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -32,8 +40,15 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Setter
-@Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
+@Intercepts({@Signature(type = Executor.class, method = "query", args = {
+        MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class
+})})
 public class PaginationInterceptor implements Interceptor {
+
+    static int MAPPED_STATEMENT_INDEX = 0;
+    static int PARAMETER_INDEX = 1;
+    static int ROWBOUNDS_INDEX = 2;
+    static int RESULT_HANDLER_INDEX = 3;
 
     /**
      * 数据库类型
@@ -47,43 +62,53 @@ public class PaginationInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        StatementHandler statementHandler = MyBatisUtils.getRealTarget(invocation.getTarget());
-        MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
+        Executor executor = MyBatisUtils.getRealTarget(invocation.getTarget());
+        MetaObject metaObject = SystemMetaObject.forObject(executor);
+
+        Object[] args = invocation.getArgs();
+        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[MAPPED_STATEMENT_INDEX];
+        Object parameterObject = invocation.getArgs()[PARAMETER_INDEX];
 
         // 先判断是不是查询操作或者存储过程，这些无需做分页操作
-        MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
         if (SqlCommandType.SELECT != mappedStatement.getSqlCommandType()
                 || StatementType.CALLABLE == mappedStatement.getStatementType()) {
             return invocation.proceed();
         }
 
         // 针对定义了rowBounds，做为mapper接口方法的参数
-        BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");
-        Object paramObj = boundSql.getParameterObject();
+        BoundSql boundSql = mappedStatement.getBoundSql(parameterObject);
+        String originalSql = boundSql.getSql();
 
-        // 判断参数里是否有Pageable对象
-        Pageable pageable = MyBatisUtils.findPageable(paramObj).orElse(null);
+        // 获取分页请求参数
         // 不包含Pageable参数的时候，或者每页记录数小于等于零的时候，无需做分页操作
+        Pageable pageable = MyBatisUtils.findPageable(parameterObject).orElse(null);
         if (null == pageable || pageable.getPageSize() < 0) {
             return invocation.proceed();
         }
 
-
-        String originalSql = boundSql.getSql();
-        Connection connection = (Connection) invocation.getArgs()[0];
-
-        Page<?> page = this.queryTotal(dbDialect.buildCountSql(boundSql.getSql()), mappedStatement, boundSql, pageable, connection);
-        if (page.getTotalElements() <= 0) {
-            return null;
-        }
+        Connection connection = executor.getTransaction().getConnection();
 
         DbType dbType = this.dbType == null ? JdbcUtils.getDbType(connection) : this.dbType;
         DbDialect dialect = Optional.ofNullable(this.dbDialect).orElseGet(() -> JdbcUtils.getDialect(dbType));
+
+        // 查询总记录数
+        long total = this.queryTotal(dialect.buildCountSql(boundSql.getSql()), mappedStatement, boundSql, connection);
+        if (total <= 0) {
+            return null;
+        }
+
         String buildSql = concatOrderBy(originalSql, pageable);
         String paginationSql = dialect.buildPaginationSql(buildSql, pageable.getOffset(), pageable.getPageSize());
         List<ParameterMapping> mappings = new ArrayList<>(boundSql.getParameterMappings());
-        metaObject.setValue("delegate.boundSql.sql", paginationSql);
-        metaObject.setValue("delegate.boundSql.parameterMappings", mappings);
+        BoundSql newBoundSql = copyBoundSql(mappedStatement, boundSql, paginationSql, mappings, parameterObject);
+        MappedStatement newMs = copyMappedStatement(mappedStatement, new BoundSqlSqlSource(newBoundSql));
+        args[MAPPED_STATEMENT_INDEX] = newMs;
+
+        Class<?> clazz = invocation.getMethod().getReturnType();
+        if (clazz.isAssignableFrom(Page.class)) {
+            Object result = invocation.proceed();
+            return new PageImpl<>((List) result, pageable, total);
+        }
         return invocation.proceed();
     }
 
@@ -91,40 +116,32 @@ public class PaginationInterceptor implements Interceptor {
      * 查询总记录条数
      *
      * @param sql             SQL
-     * @param mappedStatement MappedStatement
-     * @param boundSql        BoundSql
-     * @param pageable        Pageable
-     * @param connection      Connection
+     * @param mappedStatement {@link MappedStatement}
+     * @param boundSql        {@link BoundSql}
+     * @param connection      {@link Connection}
      */
-    protected Page<Object> queryTotal(String sql, MappedStatement mappedStatement, BoundSql boundSql, Pageable pageable, Connection connection) {
-        Page page = new PageImpl(Collections.EMPTY_LIST);
+    protected long queryTotal(String sql, MappedStatement mappedStatement, BoundSql boundSql, Connection connection) {
+        long total = 0;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             DefaultParameterHandler parameterHandler = new DefaultParameterHandler(mappedStatement, boundSql.getParameterObject(), boundSql);
             parameterHandler.setParameters(statement);
-            long total = 0;
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     total = resultSet.getLong(1);
                 }
             }
-            page = new PageImpl<>(Collections.EMPTY_LIST, page.getPageable(), total);
-            if (pageable.getPageNumber() > page.getTotalPages()) {
-                page = new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(
-                        pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort()
-                ), total);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return page;
+        return total;
     }
 
     /**
      * 查询SQL拼接Order By
      *
-     * @param originalSql 需要拼接的SQL
-     * @param pageable    分页对象
-     * @return ignore
+     * @param originalSql SQL
+     * @param pageable    {@link Pageable}
+     * @return SQL
      */
     public String concatOrderBy(String originalSql, Pageable pageable) {
         if (CollectionUtils.isNotEmpty(pageable.getSort().toList())) {
@@ -156,30 +173,77 @@ public class PaginationInterceptor implements Interceptor {
         return originalSql;
     }
 
-    private static List<OrderByElement> addOrderByElements(List<Sort.Order> orderList, List<OrderByElement> orderByElements) {
+    private static List<OrderByElement> addOrderByElements(List<Sort.Order> orderList,
+                                                           List<OrderByElement> orderByElements) {
         orderByElements = CollectionUtils.isEmpty(orderByElements) ? new ArrayList<>(orderList.size()) : orderByElements;
-        List<OrderByElement> orderByElementList = orderList.stream()
-                .map(item -> {
-                    OrderByElement element = new OrderByElement();
-                    element.setExpression(new Column(item.getProperty()));
-                    element.setAsc(item.getDirection().isAscending());
-                    return element;
-                }).collect(Collectors.toList());
+        List<OrderByElement> orderByElementList = orderList.stream().map(item -> {
+            OrderByElement element = new OrderByElement();
+            element.setExpression(new Column(item.getProperty()));
+            element.setAsc(item.getDirection().isAscending());
+            return element;
+        }).collect(Collectors.toList());
         orderByElements.addAll(orderByElementList);
         return orderByElements;
     }
 
     @Override
     public Object plugin(Object target) {
-        if (target instanceof StatementHandler) {
+        if (target instanceof Executor) {
             return Plugin.wrap(target, this);
+        } else {
+            return target;
         }
-        return target;
     }
 
     @Override
     public void setProperties(Properties properties) {
+    }
 
+    private BoundSql copyBoundSql(MappedStatement ms,
+                                  BoundSql boundSql,
+                                  String sql,
+                                  List<ParameterMapping> parameterMappings,
+                                  Object parameter) {
+        BoundSql newBoundSql = new BoundSql(ms.getConfiguration(), sql, parameterMappings, parameter);
+        for (ParameterMapping mapping : boundSql.getParameterMappings()) {
+            String prop = mapping.getProperty();
+            if (boundSql.hasAdditionalParameter(prop)) {
+                newBoundSql.setAdditionalParameter(prop, boundSql.getAdditionalParameter(prop));
+            }
+        }
+        return newBoundSql;
+    }
+
+    private static MappedStatement copyMappedStatement(MappedStatement ms, SqlSource newSqlSource) {
+        MappedStatement.Builder builder = new MappedStatement.Builder(
+                ms.getConfiguration(), ms.getId(), newSqlSource, ms.getSqlCommandType()
+        );
+        builder.resource(ms.getResource());
+        builder.fetchSize(ms.getFetchSize());
+        builder.statementType(ms.getStatementType());
+        builder.keyGenerator(ms.getKeyGenerator());
+        String[] keyProperties = ms.getKeyProperties();
+        builder.keyProperty(keyProperties == null ? null : keyProperties[0]);
+        builder.timeout(ms.getTimeout());
+        builder.parameterMap(ms.getParameterMap());
+        builder.resultMaps(ms.getResultMaps());
+        builder.resultSetType(ms.getResultSetType());
+        builder.cache(ms.getCache());
+        builder.flushCacheRequired(ms.isFlushCacheRequired());
+        builder.useCache(ms.isUseCache());
+        return builder.build();
+    }
+
+    public static class BoundSqlSqlSource implements SqlSource {
+        BoundSql boundSql;
+
+        public BoundSqlSqlSource(BoundSql boundSql) {
+            this.boundSql = boundSql;
+        }
+
+        public BoundSql getBoundSql(Object parameterObject) {
+            return boundSql;
+        }
     }
 
 }
