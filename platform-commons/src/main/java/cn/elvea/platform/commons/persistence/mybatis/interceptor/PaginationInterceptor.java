@@ -3,6 +3,8 @@ package cn.elvea.platform.commons.persistence.mybatis.interceptor;
 import cn.elvea.platform.commons.persistence.common.DbType;
 import cn.elvea.platform.commons.persistence.common.dialect.DbDialect;
 import cn.elvea.platform.commons.persistence.common.utils.JdbcUtils;
+import cn.elvea.platform.commons.persistence.mybatis.PageableRequest;
+import cn.elvea.platform.commons.persistence.mybatis.mapping.BoundSqlSqlSource;
 import cn.elvea.platform.commons.persistence.mybatis.utils.MyBatisUtils;
 import cn.elvea.platform.commons.utils.CollectionUtils;
 import lombok.Setter;
@@ -11,16 +13,16 @@ import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.*;
+import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.mapping.*;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.SqlCommandType;
+import org.apache.ibatis.mapping.StatementType;
 import org.apache.ibatis.plugin.*;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
@@ -40,9 +42,10 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Setter
-@Intercepts({@Signature(type = Executor.class, method = "query", args = {
-        MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class
-})})
+@Intercepts({
+        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
+        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class})
+})
 public class PaginationInterceptor implements Interceptor {
 
     static int MAPPED_STATEMENT_INDEX = 0;
@@ -61,17 +64,24 @@ public class PaginationInterceptor implements Interceptor {
     private DbDialect dbDialect;
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object intercept(Invocation invocation) throws Throwable {
         Executor executor = MyBatisUtils.getRealTarget(invocation.getTarget());
-        MetaObject metaObject = SystemMetaObject.forObject(executor);
-
         Object[] args = invocation.getArgs();
-        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[MAPPED_STATEMENT_INDEX];
-        Object parameterObject = invocation.getArgs()[PARAMETER_INDEX];
+        MappedStatement mappedStatement = (MappedStatement) args[MAPPED_STATEMENT_INDEX];
 
-        // 先判断是不是查询操作或者存储过程，这些无需做分页操作
+        // 查询操作或者存储过程，无需分页
         if (SqlCommandType.SELECT != mappedStatement.getSqlCommandType()
                 || StatementType.CALLABLE == mappedStatement.getStatementType()) {
+            return invocation.proceed();
+        }
+
+        Object parameterObject = invocation.getArgs()[PARAMETER_INDEX];
+
+        // 不包含PageableRequest或者Pageable参数时，无需分页
+        PageableRequest<?> pageableRequest = MyBatisUtils.findPageableRequest(parameterObject).orElse(null);
+        if (null == pageableRequest || pageableRequest.getPageable() == null ||
+                pageableRequest.getPageable().getPageSize() < 0) {
             return invocation.proceed();
         }
 
@@ -79,37 +89,32 @@ public class PaginationInterceptor implements Interceptor {
         BoundSql boundSql = mappedStatement.getBoundSql(parameterObject);
         String originalSql = boundSql.getSql();
 
-        // 获取分页请求参数
-        // 不包含Pageable参数的时候，或者每页记录数小于等于零的时候，无需做分页操作
-        Pageable pageable = MyBatisUtils.findPageable(parameterObject).orElse(null);
-        if (null == pageable || pageable.getPageSize() < 0) {
-            return invocation.proceed();
-        }
-
         Connection connection = executor.getTransaction().getConnection();
 
         DbType dbType = this.dbType == null ? JdbcUtils.getDbType(connection) : this.dbType;
         DbDialect dialect = Optional.ofNullable(this.dbDialect).orElseGet(() -> JdbcUtils.getDialect(dbType));
 
         // 查询总记录数
-        long total = this.queryTotal(dialect.buildCountSql(boundSql.getSql()), mappedStatement, boundSql, connection);
-        if (total <= 0) {
-            return null;
+        long total = 0;
+        if (pageableRequest.isQueryTotalCount()) {
+            total = this.queryTotal(dialect.buildCountSql(boundSql.getSql()), mappedStatement, boundSql, connection);
+
+            if (total <= 0) {
+                return null;
+            }
         }
 
+        Pageable pageable = pageableRequest.getPageable();
         String buildSql = concatOrderBy(originalSql, pageable);
         String paginationSql = dialect.buildPaginationSql(buildSql, pageable.getOffset(), pageable.getPageSize());
-        List<ParameterMapping> mappings = new ArrayList<>(boundSql.getParameterMappings());
-        BoundSql newBoundSql = copyBoundSql(mappedStatement, boundSql, paginationSql, mappings, parameterObject);
-        MappedStatement newMs = copyMappedStatement(mappedStatement, new BoundSqlSqlSource(newBoundSql));
+        BoundSql newBs = MyBatisUtils.copyFromBoundSql(mappedStatement, boundSql, paginationSql, parameterObject);
+        MappedStatement newMs = MyBatisUtils.copyFromMappedStatement(mappedStatement, new BoundSqlSqlSource(newBs));
         args[MAPPED_STATEMENT_INDEX] = newMs;
 
-        Class<?> clazz = invocation.getMethod().getReturnType();
-        if (clazz.isAssignableFrom(Page.class)) {
-            Object result = invocation.proceed();
-            return new PageImpl<>((List) result, pageable, total);
-        }
-        return invocation.proceed();
+        Object result = invocation.proceed();
+        pageableRequest.setTotal(total);
+        pageableRequest.setRecords((List) result);
+        return result;
     }
 
     /**
@@ -197,53 +202,6 @@ public class PaginationInterceptor implements Interceptor {
 
     @Override
     public void setProperties(Properties properties) {
-    }
-
-    private BoundSql copyBoundSql(MappedStatement ms,
-                                  BoundSql boundSql,
-                                  String sql,
-                                  List<ParameterMapping> parameterMappings,
-                                  Object parameter) {
-        BoundSql newBoundSql = new BoundSql(ms.getConfiguration(), sql, parameterMappings, parameter);
-        for (ParameterMapping mapping : boundSql.getParameterMappings()) {
-            String prop = mapping.getProperty();
-            if (boundSql.hasAdditionalParameter(prop)) {
-                newBoundSql.setAdditionalParameter(prop, boundSql.getAdditionalParameter(prop));
-            }
-        }
-        return newBoundSql;
-    }
-
-    private static MappedStatement copyMappedStatement(MappedStatement ms, SqlSource newSqlSource) {
-        MappedStatement.Builder builder = new MappedStatement.Builder(
-                ms.getConfiguration(), ms.getId(), newSqlSource, ms.getSqlCommandType()
-        );
-        builder.resource(ms.getResource());
-        builder.fetchSize(ms.getFetchSize());
-        builder.statementType(ms.getStatementType());
-        builder.keyGenerator(ms.getKeyGenerator());
-        String[] keyProperties = ms.getKeyProperties();
-        builder.keyProperty(keyProperties == null ? null : keyProperties[0]);
-        builder.timeout(ms.getTimeout());
-        builder.parameterMap(ms.getParameterMap());
-        builder.resultMaps(ms.getResultMaps());
-        builder.resultSetType(ms.getResultSetType());
-        builder.cache(ms.getCache());
-        builder.flushCacheRequired(ms.isFlushCacheRequired());
-        builder.useCache(ms.isUseCache());
-        return builder.build();
-    }
-
-    public static class BoundSqlSqlSource implements SqlSource {
-        BoundSql boundSql;
-
-        public BoundSqlSqlSource(BoundSql boundSql) {
-            this.boundSql = boundSql;
-        }
-
-        public BoundSql getBoundSql(Object parameterObject) {
-            return boundSql;
-        }
     }
 
 }

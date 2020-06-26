@@ -4,6 +4,8 @@ import cn.elvea.platform.commons.persistence.mybatis.interceptor.PaginationInter
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +21,8 @@ public class MyBatisConfig {
         return new PaginationInterceptor();
     }
 
+    @ConditionalOnClass(name = "org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer")
+    @ConditionalOnMissingBean
     @Bean
     ConfigurationCustomizer mybatisConfigurationCustomizer() {
         return configuration -> {
