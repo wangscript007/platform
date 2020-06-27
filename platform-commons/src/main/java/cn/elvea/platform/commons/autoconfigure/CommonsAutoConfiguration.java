@@ -4,6 +4,7 @@ import cn.elvea.platform.commons.Context;
 import cn.elvea.platform.commons.autoconfigure.properties.CommonsProperties;
 import cn.elvea.platform.commons.constants.SystemConstants;
 import cn.elvea.platform.commons.persistence.jdbc.callback.IdEntityCallback;
+import cn.elvea.platform.commons.persistence.jdbc.dao.CommonDao;
 import cn.elvea.platform.commons.sequence.IdWorker;
 import cn.elvea.platform.commons.utils.RedisLockUtils;
 import cn.elvea.platform.commons.utils.SpringContextUtils;
@@ -16,6 +17,7 @@ import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.Assert;
 
 /**
@@ -62,6 +64,18 @@ public class CommonsAutoConfiguration {
     public IdEntityCallback idEntityCallback(Context context) {
         Assert.notNull(context, "Context must not be null!");
         return new IdEntityCallback(context);
+    }
+
+    /**
+     * CommonDao
+     *
+     * @return {@link Context}
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public CommonDao commonDao(JdbcTemplate jdbcTemplate) {
+        Assert.notNull(jdbcTemplate, "JdbcTemplate must not be null!");
+        return new CommonDao(jdbcTemplate);
     }
 
     /**

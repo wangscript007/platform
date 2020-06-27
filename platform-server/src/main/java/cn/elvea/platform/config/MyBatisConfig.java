@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @MapperScan("cn.elvea.platform.core.**.mapper")
+@MapperScan("cn.elvea.platform.commons.persistence.mybatis.mapper")
 public class MyBatisConfig {
 
     PaginationInterceptor paginationInterceptor() {

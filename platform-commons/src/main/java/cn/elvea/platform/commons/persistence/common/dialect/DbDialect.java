@@ -14,7 +14,7 @@ public interface DbDialect {
      * @return 查询语句
      */
     default String buildCreateSimpleTemporaryTableSql(String temporaryTableName) {
-        return String.format("create table %s (id int); ", temporaryTableName);
+        return String.format("create table %s (id bigint); ", temporaryTableName);
     }
 
     /**
@@ -36,5 +36,21 @@ public interface DbDialect {
      * @return 查询语句
      */
     String buildPaginationSql(String originalSql, long offset, long limit);
+
+    /**
+     * 生成查询当前时间语句
+     */
+
+    default String buildCurrentDateTimeSql() {
+        return "";
+    }
+
+    default String buildCurrentDateSql() {
+        return "";
+    }
+
+    default String buildCurrentTimeSql() {
+        return "";
+    }
 
 }

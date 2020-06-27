@@ -1,5 +1,7 @@
 package cn.elvea.platform.commons.persistence.mybatis;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -10,12 +12,14 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * PageableRequest
+ * 分页参数
  *
  * @author elvea
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PageableRequest<T> implements Serializable {
 
     private Pageable pageable;
@@ -24,6 +28,7 @@ public class PageableRequest<T> implements Serializable {
 
     private long total;
 
+    @Builder.Default
     private boolean queryTotalCount = false;
 
     public PageableRequest(Pageable pageable) {

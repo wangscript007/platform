@@ -7,6 +7,7 @@ import cn.elvea.platform.core.system.domain.EntityRelationEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -31,10 +32,12 @@ public class EntityRelationMapperTests extends ApplicationBaseTests {
         List<EntityRelationEntity> list1 = this.entityRelationMapper.searchByPageable(pageable);
         Assertions.assertTrue(CollectionUtils.isNotEmpty(list1));
 
-        PageableRequest<EntityRelationEntity> pageableRequest = new PageableRequest<>(pageable);
+        PageableRequest<EntityRelationEntity> pageableRequest = new PageableRequest<>(pageable, true);
         List<EntityRelationEntity> list2 = this.entityRelationMapper.searchByPage(pageableRequest);
         Assertions.assertNotNull(pageableRequest);
         Assertions.assertTrue(CollectionUtils.isNotEmpty(list2));
+        Page<EntityRelationEntity> page = pageableRequest.getPage();
+        Assertions.assertNotNull(page);
     }
 
 }

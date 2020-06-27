@@ -24,6 +24,8 @@ import java.util.Optional;
 @Slf4j
 public abstract class JdbcUtils {
 
+    public final static int DEFAULT_BATCH_SIZE = 2000;
+
     private final static Map<DbType, DbDialect> dialectEnumMap = new EnumMap<>(DbType.class);
 
     static {
@@ -82,15 +84,17 @@ public abstract class JdbcUtils {
             createTemporaryStatement.execute(dialect.buildCreateSimpleTemporaryTableSql(temporaryTableName));
 
             // 初始临时数据
-            insertStatement = con.prepareStatement(String.format("insert into %s (id) values(?); ", temporaryTableName));
+            insertStatement = con.prepareStatement(String.format("insert into %s (id) values(?)", temporaryTableName));
             if (data != null && !data.isEmpty()) {
-                for (Long val : data) {
-                    insertStatement.setLong(1, val);
+                for (int i = 0; i < data.size(); i++) {
+                    insertStatement.setLong(1, data.get(i));
                     insertStatement.addBatch();
+                    if (i % DEFAULT_BATCH_SIZE == 0) {
+                        insertStatement.executeBatch();
+                    }
                 }
+                insertStatement.executeBatch();
             }
-            insertStatement.executeBatch();
-
             return temporaryTableName;
         } catch (Exception e) {
             log.error("Create temporary table {} failure. ", temporaryTableName, e);

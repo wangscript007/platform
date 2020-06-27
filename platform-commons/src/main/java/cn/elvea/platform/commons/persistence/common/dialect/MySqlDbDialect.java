@@ -15,4 +15,28 @@ public class MySqlDbDialect implements DbDialect {
         return originalSql.concat(" limit ").concat(String.valueOf(limit)).concat(", ").concat(String.valueOf(offset));
     }
 
+    /**
+     * @see DbDialect#buildCurrentDateTimeSql()
+     */
+    @Override
+    public String buildCurrentDateTimeSql() {
+        return "select now();";
+    }
+
+    /**
+     * @see DbDialect#buildCurrentDateSql()
+     */
+    @Override
+    public String buildCurrentDateSql() {
+        return "select curdate();";
+    }
+
+    /**
+     * @see DbDialect#buildCurrentTimeSql()
+     */
+    @Override
+    public String buildCurrentTimeSql() {
+        return "select curtime();";
+    }
+
 }

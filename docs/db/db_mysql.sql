@@ -80,9 +80,12 @@ CREATE TABLE `sys_role_type`
     `code`        VARCHAR(100) COMMENT '编号',
     `label`       VARCHAR(150) COMMENT '文本',
     `description` VARCHAR(250) COMMENT '备注',
-    `active`      TINYINT COMMENT '启用状态',
+    `active`      TINYINT UNSIGNED COMMENT '启用状态',
     CONSTRAINT `pk_sys_role_type` PRIMARY KEY (`id`)
 );
+
+CREATE INDEX `ix_sys_role_type_1` ON `sys_role_type` (`active`);
+CREATE INDEX `ix_sys_role_type_2` ON `sys_role_type` (`code`);
 
 /* 角色表 */
 CREATE TABLE `sys_role`
@@ -93,7 +96,7 @@ CREATE TABLE `sys_role`
     `title`            VARCHAR(150) COMMENT '标题',
     `label`            VARCHAR(150) COMMENT '文本',
     `description`      VARCHAR(255) COMMENT '简介',
-    `active`           TINYINT COMMENT '启用状态',
+    `active`           TINYINT UNSIGNED COMMENT '启用状态',
     `created_at`       DATETIME COMMENT '创建时间',
     `created_by`       BIGINT UNSIGNED COMMENT '创建人',
     `last_modified_at` DATETIME COMMENT '最后修改时间',
@@ -103,15 +106,19 @@ CREATE TABLE `sys_role`
     CONSTRAINT `pk_sys_role` PRIMARY KEY (`id`)
 );
 
+CREATE INDEX `ix_sys_role_1` ON `sys_role` (`active`);
+CREATE INDEX `ix_sys_role_2` ON `sys_role` (`code`);
+CREATE INDEX `ix_sys_role_3` ON `sys_role` (`role_type_id`);
+
 /* 权限表 */
 CREATE TABLE `sys_permission`
 (
     `id`               BIGINT UNSIGNED COMMENT 'ID',
-    `parent_id`        BIGINT UNSIGNED COMMENT 'ID',
+    `parent_id`        BIGINT UNSIGNED COMMENT '父权限ID' default 0,
     `code`             VARCHAR(100) COMMENT '编号',
     `title`            VARCHAR(150) COMMENT '标题',
     `description`      VARCHAR(255) COMMENT '简介',
-    `active`           TINYINT COMMENT '启用状态',
+    `active`           TINYINT UNSIGNED COMMENT '启用状态',
     `created_at`       DATETIME COMMENT '创建时间',
     `created_by`       BIGINT UNSIGNED COMMENT '创建人',
     `last_modified_at` DATETIME COMMENT '最后修改时间',
@@ -129,14 +136,14 @@ CREATE TABLE `sys_department`
     `title`            VARCHAR(150) COMMENT '标题',
     `description`      VARCHAR(255) COMMENT '简介',
     `root_ind`         TINYINT(1) COMMENT '是否顶层部门',
-    `active`           TINYINT COMMENT '启用状态',
+    `active`           TINYINT UNSIGNED COMMENT '启用状态',
     `created_at`       DATETIME COMMENT '创建时间',
     `created_by`       BIGINT UNSIGNED COMMENT '创建人',
     `last_modified_at` DATETIME COMMENT '最后修改时间',
     `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
     `deleted_at`       DATETIME COMMENT '删除时间',
     `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
-    `source`           VARCHAR(50) COMMENT '来源',
+    `source`           VARCHAR(100) COMMENT '来源',
     `source_key`       VARCHAR(255) COMMENT '来源标识',
     `source_extra`     VARCHAR(255) COMMENT '来源信息',
     CONSTRAINT `pk_sys_department_id` PRIMARY KEY (`id`)
@@ -150,14 +157,14 @@ CREATE TABLE `sys_position`
     `title`            VARCHAR(150) COMMENT '标题',
     `description`      VARCHAR(255) COMMENT '简介',
     `root_ind`         TINYINT(1) COMMENT '是否顶层岗位',
-    `active`           TINYINT COMMENT '启用状态',
+    `active`           TINYINT UNSIGNED COMMENT '启用状态',
     `created_at`       DATETIME COMMENT '创建时间',
     `created_by`       BIGINT UNSIGNED COMMENT '创建人',
     `last_modified_at` DATETIME COMMENT '最后修改时间',
     `last_modified_by` BIGINT UNSIGNED COMMENT '最后修改人',
     `deleted_at`       DATETIME COMMENT '删除时间',
     `deleted_by`       BIGINT UNSIGNED COMMENT '删除人',
-    `source`           VARCHAR(50) COMMENT '来源',
+    `source`           VARCHAR(100) COMMENT '来源',
     `source_key`       VARCHAR(255) COMMENT '来源标识',
     `source_extra`     VARCHAR(255) COMMENT '来源信息',
     CONSTRAINT `pk_sys_position_id` PRIMARY KEY (`id`)
@@ -361,15 +368,15 @@ CREATE INDEX `ix_sys_cat_ct_id` ON `sys_catalog` (`catalog_type_id`);
 /* 分类层级关联 */
 CREATE TABLE `sys_catalog_relation`
 (
-    `id`            BIGINT UNSIGNED COMMENT 'ID',
-    `relation_type` VARCHAR(50) COMMENT '关联类型',
-    `parent_id`     BIGINT UNSIGNED COMMENT '父节点ID',
-    `child_id`      BIGINT UNSIGNED COMMENT '子节点ID',
-    `parent_ind`    TINYINT(1) UNSIGNED COMMENT '是否直接父节点',
-    `idx`           BIGINT UNSIGNED COMMENT '层级序号',
-    `path`          TEXT COMMENT '关联的完整路径',
-    `created_at`    DATETIME COMMENT '创建时间',
-    `created_by`    BIGINT UNSIGNED COMMENT '创建人',
+    `id`             BIGINT UNSIGNED COMMENT 'ID',
+    `relation_type`  VARCHAR(50) COMMENT '关联类型',
+    `ancestor_id`    BIGINT UNSIGNED COMMENT '祖先ID',
+    `entity_id`      BIGINT UNSIGNED COMMENT '实体ID',
+    `relation_index` INT UNSIGNED COMMENT '层级序号',
+    `parent_ind`     TINYINT(1) UNSIGNED COMMENT '是否直接上级',
+    `full_path`      VARCHAR(2000) COMMENT '层级路径',
+    `created_at`     DATETIME COMMENT '创建时间',
+    `created_by`     BIGINT UNSIGNED COMMENT '创建人',
     CONSTRAINT `pk_sys_catalog_relation` PRIMARY KEY (`id`)
 );
 ALTER TABLE `sys_catalog_relation`

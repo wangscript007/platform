@@ -85,19 +85,21 @@ public class PaginationInterceptor implements Interceptor {
             return invocation.proceed();
         }
 
-        // 针对定义了rowBounds，做为mapper接口方法的参数
-        BoundSql boundSql = mappedStatement.getBoundSql(parameterObject);
-        String originalSql = boundSql.getSql();
-
         Connection connection = executor.getTransaction().getConnection();
 
         DbType dbType = this.dbType == null ? JdbcUtils.getDbType(connection) : this.dbType;
         DbDialect dialect = Optional.ofNullable(this.dbDialect).orElseGet(() -> JdbcUtils.getDialect(dbType));
 
+        // 针对定义了rowBounds，做为mapper接口方法的参数
+        BoundSql boundSql = mappedStatement.getBoundSql(parameterObject);
+        String originalSql = boundSql.getSql();
+
         // 查询总记录数
         long total = 0;
         if (pageableRequest.isQueryTotalCount()) {
-            total = this.queryTotal(dialect.buildCountSql(boundSql.getSql()), mappedStatement, boundSql, connection);
+            String countSql = dialect.buildCountSql(boundSql.getSql());
+
+            total = this.queryTotal(countSql, mappedStatement, boundSql, connection);
 
             if (total <= 0) {
                 return null;
@@ -107,9 +109,11 @@ public class PaginationInterceptor implements Interceptor {
         Pageable pageable = pageableRequest.getPageable();
         String buildSql = concatOrderBy(originalSql, pageable);
         String paginationSql = dialect.buildPaginationSql(buildSql, pageable.getOffset(), pageable.getPageSize());
+
         BoundSql newBs = MyBatisUtils.copyFromBoundSql(mappedStatement, boundSql, paginationSql, parameterObject);
         MappedStatement newMs = MyBatisUtils.copyFromMappedStatement(mappedStatement, new BoundSqlSqlSource(newBs));
         args[MAPPED_STATEMENT_INDEX] = newMs;
+        args[ROWBOUNDS_INDEX] = RowBounds.DEFAULT;
 
         Object result = invocation.proceed();
         pageableRequest.setTotal(total);
