@@ -15,5 +15,32 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class ClientDto implements Serializable {
-    private String code;
+    /**
+     * ID
+     */
+    private Long id;
+    /**
+     * Client ID
+     */
+    private String clientId;
+    /**
+     * Client Secret
+     */
+    private String clientSecret;
+    /**
+     * Authorization Grant Type
+     */
+    private String authorizationGrantTypes;
+    /**
+     * Client Authentication Method
+     */
+    private String clientAuthenticationMethods;
+    /**
+     * Redirect Uri
+     */
+    private String redirectUris;
+    /**
+     * Score
+     */
+    private String scopes;
 }

@@ -11,6 +11,8 @@ public interface SystemConstants {
     // 缓存
     // ========================================================================
 
+    String CACHE_CLIENT = "CACHE_CLIENT";
+
     String CACHE_ROLE_TYPE = "CACHE_ROLE_TYPE";
 
     String CACHE_ROLE = "CACHE_ROLE";

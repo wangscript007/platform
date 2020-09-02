@@ -33,8 +33,4 @@ public class EntityRelationManagerTests extends ApplicationBaseTests {
         this.entityRelationManager.updateEntityRelations(ENTITY_RELATION_USR_CURRENT_PST, 1L, 4L);
     }
 
-    @Test
-    public void testCrud() {
-    }
-
 }

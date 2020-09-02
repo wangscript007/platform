@@ -6,72 +6,33 @@ CREATE DATABASE IF NOT EXISTS `platform`
 
 USE `platform`;
 
-create table `oauth_client_details`
-(
-    `client_id`               VARCHAR(256) PRIMARY KEY,
-    `resource_ids`            VARCHAR(256),
-    `client_secret`           VARCHAR(256),
-    `scope`                   VARCHAR(256),
-    `authorized_grant_types`  VARCHAR(256),
-    `web_server_redirect_uri` VARCHAR(256),
-    `authorities`             VARCHAR(256),
-    `access_token_validity`   INTEGER,
-    `refresh_token_validity`  INTEGER,
-    `additional_information`  VARCHAR(4096),
-    `autoapprove`             VARCHAR(256)
-);
-
-insert into oauth_client_details
-values ('webapp', 'webapp', '$2a$10$vLBvzWIja24Ex.E2FLQbaOib0GXJ3VW5LhjmCtbdtUbamxKG8Jiq2',
-        'webapp, profile', 'client_credentials,password,refresh_token',
-        '', null, null, null, null, true);
-
-create table `oauth_client_token`
-(
-    `token_id`          VARCHAR(256),
-    `token`             LONGTEXT,
-    `authentication_id` VARCHAR(256) PRIMARY KEY,
-    `user_name`         VARCHAR(256),
-    `client_id`         VARCHAR(256)
-);
-
-create table `oauth_access_token`
-(
-    `token_id`          VARCHAR(256),
-    `token`             LONGTEXT,
-    `authentication_id` VARCHAR(256) PRIMARY KEY,
-    `user_name`         VARCHAR(256),
-    `client_id`         VARCHAR(256),
-    `authentication`    LONGTEXT,
-    `refresh_token`     VARCHAR(256)
-);
-
-create table `oauth_refresh_token`
-(
-    `token_id`       VARCHAR(256),
-    `token`          LONGTEXT,
-    `authentication` LONGTEXT
-);
-
-create table `oauth_code`
-(
-    `code`           VARCHAR(256),
-    `authentication` LONGTEXT
-);
-
-create table `oauth_approvals`
-(
-    `userId`         VARCHAR(256),
-    `clientId`       VARCHAR(256),
-    `scope`          VARCHAR(256),
-    `status`         VARCHAR(10),
-    `expiresAt`      TIMESTAMP,
-    `lastModifiedAt` TIMESTAMP
-);
-
 /* ========================================================================================================= */
 /* 基础表 */
 /* ========================================================================================================= */
+
+/* 客户端 */
+CREATE TABLE `sys_client`
+(
+    `id`                            BIGINT UNSIGNED COMMENT 'ID',
+    `client_id`                     VARCHAR(150) COMMENT 'Client ID',
+    `client_secret`                 VARCHAR(255) COMMENT 'Client Secret',
+    `authorization_grant_types`     VARCHAR(255) COMMENT 'Authorization Grant Types',
+    `client_authentication_methods` VARCHAR(255) COMMENT 'Client Authentication Methods',
+    `scopes`                        VARCHAR(255) COMMENT 'Score',
+    `redirect_uris`                 VARCHAR(255) COMMENT 'Redirect Uris',
+    `description`                   VARCHAR(255) COMMENT '备注',
+    `active`                        TINYINT UNSIGNED COMMENT '启用状态',
+    `created_at`                    DATETIME COMMENT '创建时间',
+    `created_by`                    BIGINT UNSIGNED COMMENT '创建人',
+    `last_modified_at`              DATETIME COMMENT '最后修改时间',
+    `last_modified_by`              BIGINT UNSIGNED COMMENT '最后修改人',
+    `deleted_at`                    DATETIME COMMENT '删除时间',
+    `deleted_by`                    BIGINT UNSIGNED COMMENT '删除人',
+    CONSTRAINT `pk_sys_client` PRIMARY KEY (`id`)
+);
+
+CREATE INDEX `ix_sys_client_1` ON `sys_client` (`client_id`);
+CREATE INDEX `ix_sys_client_2` ON `sys_client` (`active`);
 
 /* 角色类型表 */
 CREATE TABLE `sys_role_type`
@@ -383,8 +344,8 @@ ALTER TABLE `sys_catalog_relation`
     COMMENT '分类层级关联表';
 
 CREATE INDEX `ix_sys_cat_r_type` ON `sys_catalog_relation` (`relation_type`);
-CREATE INDEX `ix_sys_cat_r_parent_id` ON `sys_catalog_relation` (`parent_id`);
-CREATE INDEX `ix_sys_cat_r_child_id` ON `sys_catalog_relation` (`child_id`);
+CREATE INDEX `ix_sys_cat_r_parent_id` ON `sys_catalog_relation` (`ancestor_id`);
+CREATE INDEX `ix_sys_cat_r_child_id` ON `sys_catalog_relation` (`entity_id`);
 
 /* ========================================================================================================= */
 /* 通用字典 */
@@ -493,6 +454,11 @@ CREATE INDEX `ix_sys_tag_relation` ON `sys_tag_relation` (`tag_type_id`, `tag_id
 /* ========================================================================================================= */
 /* 基础数据 */
 /* ========================================================================================================= */
+
+insert into sys_client (id, client_id, client_secret, authorization_grant_types, client_authentication_methods,
+                        redirect_uris, scopes, active, created_at)
+values (1, 'webapp', '$2a$10$vLBvzWIja24Ex.E2FLQbaOib0GXJ3VW5LhjmCtbdtUbamxKG8Jiq2',
+        'basic, post', 'authorization_code, client_credentials, password, refresh_token', '', 'webapp', 1, now());
 
 /* 用户与角色 */
 insert into sys_role_type (id, code, label, description, active)

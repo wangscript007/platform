@@ -1,9 +1,7 @@
 package cn.elvea.platform.core.system.web;
 
 import cn.elvea.platform.commons.web.WebResponse;
-import cn.elvea.platform.core.system.dto.RoleTypeDto;
 import cn.elvea.platform.core.system.service.RoleService;
-import cn.elvea.platform.core.system.service.RoleTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +23,8 @@ public class RoleController {
 
     private final RoleService roleService;
 
-    private final RoleTypeService roleTypeService;
-
-    public RoleController(RoleService roleService,
-                          RoleTypeService roleTypeService) {
+    public RoleController(RoleService roleService) {
         this.roleService = roleService;
-        this.roleTypeService = roleTypeService;
     }
 
     /**
@@ -40,8 +34,8 @@ public class RoleController {
      */
     @Operation()
     @PostMapping(value = "/find-by-code")
-    public WebResponse<RoleTypeDto> getById(@RequestBody String code) {
-        return WebResponse.success(this.roleTypeService.findRoleTypeByCode(code));
+    public WebResponse<?> getById(@RequestBody String code) {
+        return WebResponse.success();
     }
 
 }
