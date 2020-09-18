@@ -40,6 +40,7 @@ subprojects {
         compile.exclude module: 'junit-vintage-engine'
         compile.exclude module: 'oauth2-oidc-sdk'
         compile.exclude module: 'log4j'
+        compile.exclude module: 'ehcache'
         compile.exclude group: 'junit'
 
         developmentOnly

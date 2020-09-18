@@ -42,7 +42,9 @@ dependencies {
     api("com.alibaba:easyexcel:${easyExcelVersion}")
     api("cn.afterturn:easypoi-base:${easyPoiVersion}")
     api("org.apache.pdfbox:pdfbox:${pdfboxVersion}")
-    api("org.jodconverter:jodconverter-remote:${jodConverterVersion}")
+    api("org.jodconverter:jodconverter-remote:${jodConverterVersion}") {
+        exclude module: 'spring-boot-dependencies'
+    }
     // sdk
     implementation("com.aliyun:aliyun-java-sdk-core:${aliyunJavaSdkVersion}")
     implementation("com.aliyun:aliyun-java-sdk-facebody:${aliyunJavaSdkFacebodyVersion}")

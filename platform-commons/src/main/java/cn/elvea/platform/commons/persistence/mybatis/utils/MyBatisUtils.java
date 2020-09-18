@@ -23,15 +23,10 @@ import java.util.Optional;
  *
  * @author elvea
  */
-@SuppressWarnings("ALL")
 public abstract class MyBatisUtils {
 
     /**
      * 获取真实代理对象
-     *
-     * @param target Object
-     * @param <T>    T
-     * @return T
      */
     public static Object getTarget(Object target) {
         if (Proxy.isProxyClass(target.getClass())) {
@@ -156,11 +151,10 @@ public abstract class MyBatisUtils {
     /**
      * 复制BoundSql
      *
-     * @param mappedStatement   ${@link MappedStatement}
-     * @param boundSql          ${@link BoundSql}
-     * @param sql               SQL
-     * @param parameterMappings 参数映射
-     * @param parameter         参数
+     * @param mappedStatement ${@link MappedStatement}
+     * @param boundSql        ${@link BoundSql}
+     * @param sql             SQL
+     * @param parameter       参数
      * @return {@link BoundSql}
      */
     public static BoundSql copyFromBoundSql(MappedStatement mappedStatement,

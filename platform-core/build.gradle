@@ -1,4 +1,8 @@
 dependencies {
+    //
+    api("org.apache.commons:commons-text:${commonsTextVersion}")
+    api("org.apache.commons:commons-lang3:${commonsLangVersion}")
+    api("com.nimbusds:nimbus-jose-jwt:${nimbusJoseJwtVersion}")
     // modules
     api project(':platform-commons')
     // compileOnly

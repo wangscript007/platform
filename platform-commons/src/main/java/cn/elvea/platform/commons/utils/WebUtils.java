@@ -3,6 +3,7 @@ package cn.elvea.platform.commons.utils;
 import cn.elvea.platform.commons.constants.SystemConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import java.net.UnknownHostException;
  * @author elvea
  */
 public class WebUtils {
+
     private static ObjectMapper mapper = new ObjectMapper();
 
     /**
@@ -27,21 +29,6 @@ public class WebUtils {
     public static boolean isAjaxRequest(HttpServletRequest request) {
         return (request.getHeader("X-Requested-With") != null
                 && "XMLHttpRequest".equals(request.getHeader("X-Requested-With")));
-    }
-
-    /**
-     * 判断当前请求是否是JSONP请求
-     *
-     * @param request HttpServletRequest
-     * @param param   String
-     * @return boolean
-     */
-    public static boolean isJsonpRequest(HttpServletRequest request, String param) {
-        return request.getParameter(param) != null;
-    }
-
-    public static String isJsonpCallback(HttpServletRequest request, String param) {
-        return request.getParameter(param);
     }
 
     /**
@@ -178,4 +165,32 @@ public class WebUtils {
         ServletUtils.setNoCacheHeader(response);
         return response;
     }
+
+    /**
+     * 是否是HTML
+     */
+    public static boolean isHtml(String input) {
+        boolean isHtml = false;
+        if (input != null) {
+            if (!input.equals(HtmlUtils.htmlEscape(input))) {
+                isHtml = true;
+            }
+        }
+        return isHtml;
+    }
+
+    /**
+     * 转义
+     */
+    public static String escapeHtml(String text) {
+        return HtmlUtils.htmlEscape(text);
+    }
+
+    /**
+     * 反转义
+     */
+    public static String unescapeHtml(String text) {
+        return HtmlUtils.htmlUnescape(text);
+    }
+
 }
