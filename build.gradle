@@ -38,7 +38,6 @@ subprojects {
         compile.exclude module: 'commons-logging'
         compile.exclude module: 'commons-dbcp'
         compile.exclude module: 'junit-vintage-engine'
-        compile.exclude module: 'oauth2-oidc-sdk'
         compile.exclude module: 'log4j'
         compile.exclude module: 'ehcache'
         compile.exclude group: 'junit'

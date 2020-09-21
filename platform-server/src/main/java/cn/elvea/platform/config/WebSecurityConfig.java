@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 /**
  * Web Security
@@ -29,10 +30,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final JwtDecoder jwtDecoder;
+
     @Autowired
     public WebSecurityConfig(PasswordEncoder passwordEncoder,
+                             JwtDecoder jwtDecoder,
                              SecurityUserDetailsService userDetailsService) {
         this.passwordEncoder = passwordEncoder;
+        this.jwtDecoder = jwtDecoder;
         this.userDetailsService = userDetailsService;
     }
 
@@ -62,8 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .oauth2ResourceServer()
-                .jwt();
+                .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.decoder(jwtDecoder)));
+        ;
     }
 
 }

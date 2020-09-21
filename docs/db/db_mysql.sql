@@ -458,7 +458,7 @@ CREATE INDEX `ix_sys_tag_relation` ON `sys_tag_relation` (`tag_type_id`, `tag_id
 insert into sys_client (id, client_id, client_secret, authorization_grant_types, client_authentication_methods,
                         redirect_uris, scopes, active, created_at)
 values (1, 'webapp', '$2a$10$vLBvzWIja24Ex.E2FLQbaOib0GXJ3VW5LhjmCtbdtUbamxKG8Jiq2',
-        'basic, post', 'authorization_code, client_credentials, password, refresh_token', '', 'webapp', 1, now());
+        'basic,post', 'authorization_code,client_credentials,password,refresh_token', '', 'webapp', 1, now());
 
 /* 用户与角色 */
 insert into sys_role_type (id, code, label, description, active)

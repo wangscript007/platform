@@ -10,7 +10,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
-    implementation("org.springframework.security.experimental:spring-security-oauth2-authorization-server:${springSecurityOAuthAuthorizationServerVersion}")
+    implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springSecurityOAuthVersion}")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // spring doc
     implementation("org.springdoc:springdoc-openapi-ui:${springDocVersion}")
@@ -22,6 +22,7 @@ dependencies {
     implementation("org.apache.commons:commons-text:${commonsTextVersion}")
     implementation("org.apache.commons:commons-lang3:${commonsLangVersion}")
     implementation("com.nimbusds:nimbus-jose-jwt:${nimbusJoseJwtVersion}")
+    implementation("com.nimbusds:oauth2-oidc-sdk:${nimbusSdkVersion}")
     // modules
     implementation project(':platform-commons')
     implementation project(':platform-core')
