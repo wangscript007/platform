@@ -14,7 +14,7 @@ import java.util.List;
  * @author elvea
  */
 @Slf4j
-public class ConvertUtils {
+public abstract class ConvertUtils {
 
     /**
      * convert

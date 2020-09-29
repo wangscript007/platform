@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.catalog.manager.impl;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
+import cn.elvea.platform.commons.service.AbstractManager;
 import cn.elvea.platform.commons.utils.CollectionUtils;
 import cn.elvea.platform.core.catalog.domain.CatalogRelationEntity;
 import cn.elvea.platform.core.catalog.manager.CatalogRelationManager;
@@ -27,7 +27,7 @@ import static cn.elvea.platform.core.catalog.CatalogConstants.*;
 @Service
 @Slf4j
 public class CatalogRelationManagerImpl
-        extends AbstractService<CatalogRelationEntity, Long, CatalogRelationRepository>
+        extends AbstractManager<CatalogRelationEntity, Long, CatalogRelationRepository>
         implements CatalogRelationManager {
 
     /**

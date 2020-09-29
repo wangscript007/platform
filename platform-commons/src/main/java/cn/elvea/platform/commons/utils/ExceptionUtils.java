@@ -5,7 +5,7 @@ package cn.elvea.platform.commons.utils;
  *
  * @author elvea
  */
-public class ExceptionUtils {
+public abstract class ExceptionUtils {
 
     public static RuntimeException unchecked(Throwable ex) {
         if (ex instanceof RuntimeException) {

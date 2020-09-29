@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager.impl;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
+import cn.elvea.platform.commons.service.AbstractManager;
 import cn.elvea.platform.core.system.domain.ClientEntity;
 import cn.elvea.platform.core.system.manager.ClientManager;
 import cn.elvea.platform.core.system.manager.UserManager;
@@ -22,7 +22,7 @@ import static cn.elvea.platform.core.system.SystemConstants.CACHE_CLIENT;
 @Service
 @Slf4j
 @CacheConfig(cacheNames = CACHE_CLIENT)
-public class ClientManagerImpl extends AbstractService<ClientEntity, Long, ClientRepository> implements ClientManager {
+public class ClientManagerImpl extends AbstractManager<ClientEntity, Long, ClientRepository> implements ClientManager {
 
     /**
      * @see ClientManager#findById(Long)

@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager.impl;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
+import cn.elvea.platform.commons.service.AbstractManager;
 import cn.elvea.platform.commons.utils.CollectionUtils;
 import cn.elvea.platform.core.system.domain.EntityRelationEntity;
 import cn.elvea.platform.core.system.manager.EntityRelationManager;
@@ -26,7 +26,7 @@ import static cn.elvea.platform.core.system.SystemConstants.*;
 @Service
 @Slf4j
 public class EntityRelationManagerImpl
-        extends AbstractService<EntityRelationEntity, Long, EntityRelationRepository>
+        extends AbstractManager<EntityRelationEntity, Long, EntityRelationRepository>
         implements EntityRelationManager {
 
     /**

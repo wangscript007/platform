@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.BaseService;
+import cn.elvea.platform.commons.service.Manager;
 import cn.elvea.platform.core.system.domain.RoleEntity;
 
 /**
@@ -8,7 +8,7 @@ import cn.elvea.platform.core.system.domain.RoleEntity;
  *
  * @author elvea
  */
-public interface RoleManager extends BaseService<RoleEntity, Long> {
+public interface RoleManager extends Manager<RoleEntity, Long> {
 
     /**
      * 清空缓存

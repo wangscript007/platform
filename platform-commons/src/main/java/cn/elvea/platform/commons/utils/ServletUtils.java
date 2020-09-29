@@ -13,7 +13,7 @@ import java.util.TreeMap;
  *
  * @author elvea
  */
-public class ServletUtils {
+public abstract class ServletUtils {
 
     //-- Content MsgType 定义 --//
     public static final String TEXT_TYPE = "text/plain";

@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.catalog.manager;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.BaseService;
+import cn.elvea.platform.commons.service.Manager;
 import cn.elvea.platform.core.catalog.domain.CatalogRelationEntity;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author elvea
  */
-public interface CatalogRelationManager extends BaseService<CatalogRelationEntity, Long> {
+public interface CatalogRelationManager extends Manager<CatalogRelationEntity, Long> {
 
     /**
      * 获取所有上级

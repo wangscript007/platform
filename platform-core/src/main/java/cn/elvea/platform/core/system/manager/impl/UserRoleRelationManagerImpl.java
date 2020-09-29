@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager.impl;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
+import cn.elvea.platform.commons.service.AbstractManager;
 import cn.elvea.platform.core.system.domain.UserRoleRelationEntity;
 import cn.elvea.platform.core.system.manager.RolePermissionRelationManager;
 import cn.elvea.platform.core.system.manager.UserRoleRelationManager;
@@ -22,7 +22,7 @@ import static cn.elvea.platform.core.system.SystemConstants.CACHE_USER_ROLE_RELA
 @Slf4j
 @CacheConfig(cacheNames = CACHE_USER_ROLE_RELATION)
 public class UserRoleRelationManagerImpl
-        extends AbstractService<UserRoleRelationEntity, Long, UserRoleRelationRepository>
+        extends AbstractManager<UserRoleRelationEntity, Long, UserRoleRelationRepository>
         implements UserRoleRelationManager {
 
     /**

@@ -8,7 +8,7 @@ import java.util.Date;
  *
  * @author elvea
  */
-public class DateUtils {
+public abstract class DateUtils {
 
     public final static String DATE_PATTEN = "";
 

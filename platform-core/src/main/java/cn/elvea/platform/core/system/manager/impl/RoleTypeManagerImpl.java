@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager.impl;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
+import cn.elvea.platform.commons.service.AbstractManager;
 import cn.elvea.platform.core.system.domain.RoleTypeEntity;
 import cn.elvea.platform.core.system.manager.RoleTypeManager;
 import cn.elvea.platform.core.system.manager.UserManager;
@@ -25,7 +25,7 @@ import static cn.elvea.platform.core.system.SystemConstants.CACHE_ROLE_TYPE;
 @Service
 @CacheConfig(cacheNames = CACHE_ROLE_TYPE)
 public class RoleTypeManagerImpl
-        extends AbstractService<RoleTypeEntity, Long, RoleTypeRepository>
+        extends AbstractManager<RoleTypeEntity, Long, RoleTypeRepository>
         implements RoleTypeManager {
 
     /**

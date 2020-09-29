@@ -16,7 +16,7 @@ import java.util.UUID;
  *
  * @author elvea
  */
-public class JwtUtils {
+public abstract class JwtUtils {
 
     public static void generateRsaKey1() throws Exception {
         // 实例化密钥生成器

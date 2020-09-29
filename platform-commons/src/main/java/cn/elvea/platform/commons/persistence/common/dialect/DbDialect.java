@@ -41,16 +41,10 @@ public interface DbDialect {
      * 生成查询当前时间语句
      */
 
-    default String buildCurrentDateTimeSql() {
-        return "";
-    }
+    String buildCurrentDateTimeSql();
 
-    default String buildCurrentDateSql() {
-        return "";
-    }
+    String buildCurrentDateSql();
 
-    default String buildCurrentTimeSql() {
-        return "";
-    }
+    String buildCurrentTimeSql();
 
 }

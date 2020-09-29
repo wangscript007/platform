@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.BaseService;
+import cn.elvea.platform.commons.service.Manager;
 import cn.elvea.platform.core.system.domain.PositionEntity;
 
 /**
@@ -8,7 +8,7 @@ import cn.elvea.platform.core.system.domain.PositionEntity;
  *
  * @author elvea
  */
-public interface PositionManager extends BaseService<PositionEntity, Long> {
+public interface PositionManager extends Manager<PositionEntity, Long> {
 
     /**
      * 清空缓存

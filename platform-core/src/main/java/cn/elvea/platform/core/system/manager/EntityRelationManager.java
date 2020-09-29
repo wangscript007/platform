@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.BaseService;
+import cn.elvea.platform.commons.service.Manager;
 import cn.elvea.platform.core.system.domain.EntityRelationEntity;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author elvea
  */
-public interface EntityRelationManager extends BaseService<EntityRelationEntity, Long> {
+public interface EntityRelationManager extends Manager<EntityRelationEntity, Long> {
 
     /**
      * 获取所有上级

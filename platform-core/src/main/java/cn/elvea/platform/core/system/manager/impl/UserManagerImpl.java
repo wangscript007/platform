@@ -1,7 +1,7 @@
 package cn.elvea.platform.core.system.manager.impl;
 
 import cn.elvea.platform.commons.persistence.jdbc.domain.BaseEntity;
-import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
+import cn.elvea.platform.commons.service.AbstractManager;
 import cn.elvea.platform.core.system.domain.UserEntity;
 import cn.elvea.platform.core.system.manager.UserManager;
 import cn.elvea.platform.core.system.repository.UserRepository;
@@ -22,7 +22,7 @@ import static cn.elvea.platform.core.system.SystemConstants.CACHE_USER;
 @Service
 @Slf4j
 @CacheConfig(cacheNames = CACHE_USER)
-public class UserManagerImpl extends AbstractService<UserEntity, Long, UserRepository> implements UserManager {
+public class UserManagerImpl extends AbstractManager<UserEntity, Long, UserRepository> implements UserManager {
 
     /**
      * @see UserManager#findById(Serializable)

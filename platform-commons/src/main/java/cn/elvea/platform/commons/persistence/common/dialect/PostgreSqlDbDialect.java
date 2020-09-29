@@ -15,4 +15,19 @@ public class PostgreSqlDbDialect implements DbDialect {
         return null;
     }
 
+    @Override
+    public String buildCurrentDateTimeSql() {
+        return null;
+    }
+
+    @Override
+    public String buildCurrentDateSql() {
+        return null;
+    }
+
+    @Override
+    public String buildCurrentTimeSql() {
+        return null;
+    }
+
 }

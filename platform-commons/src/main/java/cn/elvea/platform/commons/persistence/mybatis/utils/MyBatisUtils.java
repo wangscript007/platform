@@ -23,6 +23,7 @@ import java.util.Optional;
  *
  * @author elvea
  */
+@SuppressWarnings({"all"})
 public abstract class MyBatisUtils {
 
     /**

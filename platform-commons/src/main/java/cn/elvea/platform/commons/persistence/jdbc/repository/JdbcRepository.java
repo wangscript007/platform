@@ -5,8 +5,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 /**
  * JdbcRepository
  *
- * @param <T>
- * @param <ID>
+ * @param <T> 实体
+ * @param <K> 主键
  */
-public interface JdbcRepository<T, ID> extends PagingAndSortingRepository<T, ID> {
+public interface JdbcRepository<T, K> extends PagingAndSortingRepository<T, K> {
 }

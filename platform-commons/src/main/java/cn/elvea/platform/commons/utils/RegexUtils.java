@@ -8,7 +8,8 @@ import java.util.regex.Pattern;
  *
  * @author elvea
  */
-public class RegexUtils {
+public abstract class RegexUtils {
+
     /**
      * 验证Email
      *

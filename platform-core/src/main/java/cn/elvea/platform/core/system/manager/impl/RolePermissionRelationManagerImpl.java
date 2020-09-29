@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager.impl;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
+import cn.elvea.platform.commons.service.AbstractManager;
 import cn.elvea.platform.core.system.domain.RolePermissionRelationEntity;
 import cn.elvea.platform.core.system.manager.RolePermissionRelationManager;
 import cn.elvea.platform.core.system.repository.RolePermissionRelationRepository;
@@ -20,7 +20,7 @@ import static cn.elvea.platform.core.system.SystemConstants.CACHE_ROLE_PERMISSIO
 @Slf4j
 @CacheConfig(cacheNames = CACHE_ROLE_PERMISSION_RELATION)
 public class RolePermissionRelationManagerImpl
-        extends AbstractService<RolePermissionRelationEntity, Long, RolePermissionRelationRepository>
+        extends AbstractManager<RolePermissionRelationEntity, Long, RolePermissionRelationRepository>
         implements RolePermissionRelationManager {
 
     /**

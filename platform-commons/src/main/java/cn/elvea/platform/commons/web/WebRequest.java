@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.NonNull;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +28,11 @@ public class WebRequest {
     // 请求参数
     private Map<String, Object> params = Maps.newHashMap();
 
-    public WebRequest(NativeWebRequest webRequest) {
-        this(webRequest.getNativeRequest(HttpServletRequest.class));
+    public WebRequest(@NonNull NativeWebRequest nativeWebRequest) {
+        this(nativeWebRequest.getNativeRequest(HttpServletRequest.class));
     }
 
-    public WebRequest(HttpServletRequest request) {
+    public WebRequest(@NonNull HttpServletRequest request) {
         String param = null;
         String value = null;
 

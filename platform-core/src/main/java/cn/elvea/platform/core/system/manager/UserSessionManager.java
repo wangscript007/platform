@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.BaseService;
+import cn.elvea.platform.commons.service.Manager;
 import cn.elvea.platform.core.system.domain.UserSessionEntity;
 
 /**
@@ -8,7 +8,7 @@ import cn.elvea.platform.core.system.domain.UserSessionEntity;
  *
  * @author elvea
  */
-public interface UserSessionManager extends BaseService<UserSessionEntity, Long> {
+public interface UserSessionManager extends Manager<UserSessionEntity, Long> {
 
     /**
      * 清空缓存

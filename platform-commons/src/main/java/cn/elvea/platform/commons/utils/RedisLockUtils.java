@@ -2,7 +2,6 @@ package cn.elvea.platform.commons.utils;
 
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
@@ -12,7 +11,6 @@ import java.util.function.Supplier;
  *
  * @author elvea
  */
-@Component
 public class RedisLockUtils {
 
     private final RedissonClient client;

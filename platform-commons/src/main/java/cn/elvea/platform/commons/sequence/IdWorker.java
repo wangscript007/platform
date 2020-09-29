@@ -128,7 +128,7 @@ public class IdWorker {
     /**
      * 数据标识id部分
      */
-    protected static long getDatacenterId(long maxDatacenterId) {
+    protected static long getDatacenterId(final long maxDatacenterId) {
         long id = 0L;
         try {
             InetAddress ip = InetAddress.getLocalHost();

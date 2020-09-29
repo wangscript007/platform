@@ -16,7 +16,7 @@ import java.net.UnknownHostException;
  *
  * @author elvea
  */
-public class WebUtils {
+public abstract class WebUtils {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
@@ -94,7 +94,7 @@ public class WebUtils {
      * 直接输出内容的简便函数.
      */
     public static void render(HttpServletResponse response, final String contentType, final String content, final String... headers) {
-        response = initResponseHeader(response, contentType, headers);
+        initResponseHeader(response, contentType, headers);
         try {
             response.getWriter().write(content);
             response.getWriter().flush();
@@ -135,27 +135,12 @@ public class WebUtils {
      * 直接输出JSON,使用Jackson转换Java对象.
      */
     public static void renderJson(HttpServletResponse response, final Object data, final String... headers) {
-        response = initResponseHeader(response, ServletUtils.JSON_TYPE);
+        initResponseHeader(response, ServletUtils.JSON_TYPE);
         try {
             mapper.writeValue(response.getWriter(), data);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
-    }
-
-    /**
-     * 直接输出支持跨域Mashup的JSONP.
-     */
-    public static void renderJsonp(HttpServletResponse response, final String callbackName, final Object object, final String... headers) {
-        String jsonString = null;
-        try {
-            jsonString = mapper.writeValueAsString(object);
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
-        String result = callbackName + "(" + jsonString + ");";
-
-        render(response, ServletUtils.JS_TYPE, result, headers);
     }
 
     private static HttpServletResponse initResponseHeader(HttpServletResponse response, final String contentType, final String... headers) {

@@ -1,6 +1,8 @@
 package cn.elvea.platform.commons.persistence.jdbc.dao;
 
 import cn.elvea.platform.commons.persistence.common.dialect.DbDialect;
+import cn.elvea.platform.commons.persistence.common.utils.JdbcUtils;
+import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.LocalDate;
@@ -8,18 +10,21 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * JDBC Dao 通用基础类
+ * JDBC Common Dao
  *
  * @author elvea
  */
 public class CommonDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    private DbDialect dbDialect;
+    private final DbDialect dialect;
 
     public CommonDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+
+        // 获取数据库方言
+        this.dialect = this.jdbcTemplate.execute((ConnectionCallback<DbDialect>) JdbcUtils::getDialect);
     }
 
     /**
@@ -28,7 +33,7 @@ public class CommonDao {
      * @return 数据库系统当前时间
      */
     public LocalDateTime getCurrentLocalDateTime() {
-        return this.jdbcTemplate.queryForObject("select now()", java.time.LocalDateTime.class);
+        return this.jdbcTemplate.queryForObject(this.dialect.buildCurrentDateTimeSql(), java.time.LocalDateTime.class);
     }
 
     /**
@@ -37,7 +42,7 @@ public class CommonDao {
      * @return 数据库系统当前时间
      */
     public LocalDate getCurrentLocalDate() {
-        return this.jdbcTemplate.queryForObject("select curdate()", java.time.LocalDate.class);
+        return this.jdbcTemplate.queryForObject(this.dialect.buildCurrentDateSql(), java.time.LocalDate.class);
     }
 
     /**
@@ -46,7 +51,7 @@ public class CommonDao {
      * @return 数据库系统当前时间
      */
     public LocalTime getCurrentLocalTime() {
-        return this.jdbcTemplate.queryForObject("select curtime()", java.time.LocalTime.class);
+        return this.jdbcTemplate.queryForObject(this.dialect.buildCurrentTimeSql(), java.time.LocalTime.class);
     }
 
 }

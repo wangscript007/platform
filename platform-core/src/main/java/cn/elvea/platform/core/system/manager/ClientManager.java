@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.BaseService;
+import cn.elvea.platform.commons.service.Manager;
 import cn.elvea.platform.core.system.domain.ClientEntity;
 
 /**
@@ -8,7 +8,7 @@ import cn.elvea.platform.core.system.domain.ClientEntity;
  *
  * @author elvea
  */
-public interface ClientManager extends BaseService<ClientEntity, Long> {
+public interface ClientManager extends Manager<ClientEntity, Long> {
 
     /**
      * 根据ID查询

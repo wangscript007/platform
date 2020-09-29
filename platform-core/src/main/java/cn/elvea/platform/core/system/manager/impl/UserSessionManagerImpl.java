@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager.impl;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
+import cn.elvea.platform.commons.service.AbstractManager;
 import cn.elvea.platform.core.system.domain.UserSessionEntity;
 import cn.elvea.platform.core.system.manager.UserManager;
 import cn.elvea.platform.core.system.manager.UserSessionManager;
@@ -22,7 +22,7 @@ import static cn.elvea.platform.core.system.SystemConstants.CACHE_USER_SESSION;
 @Slf4j
 @CacheConfig(cacheNames = CACHE_USER_SESSION)
 public class UserSessionManagerImpl
-        extends AbstractService<UserSessionEntity, Long, UserSessionRepository>
+        extends AbstractManager<UserSessionEntity, Long, UserSessionRepository>
         implements UserSessionManager {
 
     /**

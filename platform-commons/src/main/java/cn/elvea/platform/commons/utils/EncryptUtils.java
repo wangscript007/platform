@@ -23,7 +23,7 @@ import java.security.SecureRandom;
  *
  * @author elvea
  */
-public class EncryptUtils {
+public abstract class EncryptUtils {
     public static final String ENCODING = "UTF-8";
 
     public static final Charset UTF8 = StandardCharsets.UTF_8;

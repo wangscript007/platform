@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager.impl;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.AbstractService;
+import cn.elvea.platform.commons.service.AbstractManager;
 import cn.elvea.platform.core.system.domain.PositionEntity;
 import cn.elvea.platform.core.system.manager.PositionManager;
 import cn.elvea.platform.core.system.repository.PositionRepository;
@@ -20,7 +20,7 @@ import static cn.elvea.platform.core.system.SystemConstants.CACHE_POSITION;
 @Slf4j
 @CacheConfig(cacheNames = CACHE_POSITION)
 public class PositionManagerImpl
-        extends AbstractService<PositionEntity, Long, PositionRepository>
+        extends AbstractManager<PositionEntity, Long, PositionRepository>
         implements PositionManager {
 
     /**

@@ -1,6 +1,6 @@
 package cn.elvea.platform.core.system.manager;
 
-import cn.elvea.platform.commons.persistence.jdbc.service.BaseService;
+import cn.elvea.platform.commons.service.Manager;
 import cn.elvea.platform.core.system.domain.UserEntity;
 
 /**
@@ -8,7 +8,7 @@ import cn.elvea.platform.core.system.domain.UserEntity;
  *
  * @author elvea
  */
-public interface UserManager extends BaseService<UserEntity, Long> {
+public interface UserManager extends Manager<UserEntity, Long> {
 
     /**
      * 根据用户名查询

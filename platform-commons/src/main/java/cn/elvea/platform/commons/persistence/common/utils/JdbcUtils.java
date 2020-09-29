@@ -61,6 +61,10 @@ public abstract class JdbcUtils {
         }
     }
 
+    public static DbDialect getDialect(Connection con) throws SQLException {
+        return getDialect(getDbType(getMetaData(con).getURL()));
+    }
+
     public static DbDialect getDialect(DbType dbType) {
         return Optional.ofNullable(dialectEnumMap.get(dbType))
                 .orElseThrow(() -> new SystemException(String.format("%s database not supported.", dbType.getDb())));
