@@ -33,7 +33,6 @@ dependencies {
     api("org.redisson:redisson:${redissonVersion}")
     api("com.nimbusds:nimbus-jose-jwt:${nimbusJoseJwtVersion}")
     api("com.github.jsqlparser:jsqlparser:${jSqlParserVersion}")
-    api("org.mapstruct:mapstruct:${mapStructVersion}")
     api("org.jetbrains:annotations:${jetbrainsAnnotationsVersion}")
     api("io.swagger.core.v3:swagger-annotations:${swaggerAnnotationsVersion}")
     api("org.apache.poi:poi:${poiVersion}")

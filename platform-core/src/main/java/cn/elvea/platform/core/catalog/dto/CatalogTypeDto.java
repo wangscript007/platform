@@ -13,4 +13,16 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class CatalogTypeDto implements Serializable {
+    /**
+     * 编号
+     */
+    private String code;
+    /**
+     * 文本
+     */
+    private String label;
+    /**
+     * 备注
+     */
+    private String description;
 }

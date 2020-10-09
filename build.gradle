@@ -67,6 +67,9 @@ subprojects {
         testImplementation("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
         testAnnotationProcessor("org.projectlombok:lombok")
+        // mapstruct
+        implementation("org.mapstruct:mapstruct:${mapStructVersion}")
+        annotationProcessor("org.mapstruct:mapstruct-processor:${mapStructVersion}")
     }
 
 }
