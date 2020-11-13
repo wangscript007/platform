@@ -41,6 +41,9 @@ dependencies {
     api("com.alibaba:easyexcel:${easyExcelVersion}")
     api("cn.afterturn:easypoi-base:${easyPoiVersion}")
     api("org.apache.pdfbox:pdfbox:${pdfboxVersion}")
+    api("com.twelvemonkeys.imageio:imageio-jpeg:${imageioJpegVersion}")
+    api("com.google.zxing:javase:${zxingVersion}")
+    api("net.coobird:thumbnailator:${thumbnailatorVersion}")
     api("org.jodconverter:jodconverter-remote:${jodConverterVersion}") {
         exclude module: 'spring-boot-dependencies'
     }
